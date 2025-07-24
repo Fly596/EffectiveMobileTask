@@ -4,20 +4,34 @@ import com.example.effectivemobiletask.data.Course
 import com.example.effectivemobiletask.data.local.CourseEntity
 import com.example.effectivemobiletask.data.network.NetworkCourse
 import java.time.Instant
+import java.time.LocalDate
 import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+
+fun convertStringToTimestamp(dateString: String, pattern: String): Long {
+
+    val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern(pattern)
+
+    val localDate = LocalDate.parse(dateString, formatter)
+
+    val epochMilli: Long = localDate.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
+
+    return epochMilli
+}
 
 // Mapper из Network в Entity.
 // Вызывается после получения данных из сети.
 fun NetworkCourse.toEntity(): CourseEntity {
+    val pattern = "yyyy-MM-dd"
   return CourseEntity(
       id = this.id,
       title = this.title,
       text = this.text,
       price = this.price.toDoubleOrNull()?:0.0,
       rate = this.rate.toFloatOrNull()?:0.0f,
-      startDate = Instant.parse(this.startDate).toEpochMilli(),
+      startDate = convertStringToTimestamp(this.startDate,pattern),
       hasLike = this.hasLike,
-      publishDate = Instant.parse(this.publishDate).toEpochMilli(),
+      publishDate = convertStringToTimestamp(this.publishDate, pattern)/* Instant.parse(this.publishDate).toEpochMilli()*/,
   )
 }
 

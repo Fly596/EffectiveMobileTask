@@ -3,6 +3,9 @@ package com.example.effectivemobiletask.data.network
 import kotlinx.serialization.Serializable
 
 @Serializable
+data class NetworkResponse(val courses: List<NetworkCourse>)
+
+@Serializable
 data class NetworkCourse(
     val id: Int,
     val title: String,

@@ -1,18 +1,17 @@
 package com.example.effectivemobiletask.di
 
 import com.example.effectivemobiletask.data.network.ApiService
-import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import kotlinx.serialization.json.Json
-import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
+/*private const val BASE_URL =
+    "https://drive.usercontent.google.com/u/0/uc?id=15arTK7XT2b7Yv4BJsmDctA4Hg-BbS8-q&export=download/"*/
 private const val BASE_URL =
     "https://drive.usercontent.google.com/u/0/uc?id=15arTK7XT2b7Yv4BJsmDctA4Hg-BbS8-q&export=download/"
 
@@ -29,14 +28,6 @@ object AppModule {
             .readTimeout(30, TimeUnit.SECONDS)
             .build()
 
-    // Retrofit.
-    @Provides
-    @Singleton
-    fun provideRetrofit(): Retrofit =
-        Retrofit.Builder()
-            .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
-            .baseUrl(BASE_URL)
-            .build()
 
     // Api Service.
     @Provides

@@ -59,7 +59,8 @@ dependencies {
 
   // DI (Hilt)
   implementation(libs.google.hilt.android)
-  ksp(libs.google.hilt.compiler)
+    implementation(libs.androidx.media3.common.ktx)
+    ksp(libs.google.hilt.compiler)
   implementation(libs.androidx.hilt.navigation.compose)
 
   // Network

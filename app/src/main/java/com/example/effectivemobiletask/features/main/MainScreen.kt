@@ -3,6 +3,8 @@ package com.example.effectivemobiletask.features.main
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -33,6 +35,11 @@ fun MainScreen(
         // Поиск и фильтрация.
         SearchAndFilter()
 
+        LazyColumn{
+            items(items = state.courses){item ->
+                Text(text = item.title)
+            }
+        }
 
     }
 
