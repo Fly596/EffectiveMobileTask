@@ -5,6 +5,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
-fun LoginScreen(viewModel: LoginScreenViewModel = hiltViewModel()) {
+fun LoginScreen(viewModel: LoginScreenViewModel = hiltViewModel(), onLoginClick: () -> Unit) {
   val context = LocalContext.current
 }

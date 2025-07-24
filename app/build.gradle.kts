@@ -90,7 +90,7 @@ ktfmt {
   // Breaks lines longer than maxWidth. Default 100.
   maxWidth.set(80)
   // Whether ktfmt should remove imports that are not used.
-  removeUnusedImports.set(false)
+  removeUnusedImports.set(true)
   // Whether ktfmt should automatically add/remove trailing commas.
-  manageTrailingCommas.set(false)
+  manageTrailingCommas.set(true)
 }

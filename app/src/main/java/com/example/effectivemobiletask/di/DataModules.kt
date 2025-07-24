@@ -41,10 +41,10 @@ object DatabaseModule {
     @Provides
     fun provideDataBase(@ApplicationContext context: Context): AppDatabase {
         return Room.databaseBuilder(
-                context.applicationContext,
-                AppDatabase::class.java,
-                "AppDatabase.db",
-            )
+            context.applicationContext,
+            AppDatabase::class.java,
+            "AppDatabase.db",
+        )
             .build()
     }
 
