@@ -3,16 +3,16 @@ package com.example.effectivemobiletask
 import kotlinx.serialization.Serializable
 
 @Serializable
-sealed class AuthRoute{
-    @Serializable data object Login : AuthRoute()
-    @Serializable data object Registration : AuthRoute()
-    @Serializable data object Onboarding : AuthRoute()
+sealed class AuthRoute(val route: String){
+    @Serializable data object Login : AuthRoute("login")
+    @Serializable data object Registration : AuthRoute("registration")
+    @Serializable data object Onboarding : AuthRoute("onboarding")
 }
 
 @Serializable
-sealed class HomeRoute {
-    @Serializable data object Main : HomeRoute()
-    @Serializable data object Favorite : HomeRoute()
-    @Serializable data object Account : HomeRoute()
-    @Serializable data class Course(val courseId: Int) : HomeRoute()
+sealed class HomeRoute(val route: String) {
+    @Serializable data object Main : HomeRoute("main")
+    @Serializable data object Favorite : HomeRoute("favorite")
+    @Serializable data object Account : HomeRoute("account")
+    @Serializable data class Course(val courseId: Int) : HomeRoute("course")
 }

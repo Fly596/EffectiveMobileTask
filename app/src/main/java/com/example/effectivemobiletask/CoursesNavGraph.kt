@@ -8,90 +8,61 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
+import com.example.effectivemobiletask.ui.screens.coursedetails.CourseDetailScreen
 import com.example.effectivemobiletask.ui.screens.login.LoginScreen
 import kotlinx.serialization.Serializable
 
-sealed class BottomBarItem(
-    val route: HomeRoute,
-    val title: String,
-    val iconDefault: Int,
-    val iconSelected: Int,
-) {
-  data object Main :
-      BottomBarItem(
-          HomeRoute.Main, "Main",
-          R.drawable.house,
-          R.drawable.house_selected)
-
-  data object Favorite :
-      BottomBarItem(
-          HomeRoute.Favorite,
-          "Favorites",
-          R.drawable.bookmark,
-          R.drawable.bookmark_selected)
-
-  data object Account :
-      BottomBarItem(
-          HomeRoute.Account,
-          "Account",
-          R.drawable.person,
-          R.drawable.person_selected)
-}
 
 @Composable
 fun CoursesNavGraph(
     modifier: Modifier = Modifier,
     startDestination: RootGraph = RootGraph.Auth,
 ) {
-  val navController: NavHostController = rememberNavController()
+    val navController: NavHostController = rememberNavController()
 
-  NavHost(
-      navController = navController,
-      startDestination = startDestination,
-      modifier = modifier,
-  ) {
-    authGraph(onLoginSuccess = { navController.navigate(RootGraph.Home) })
-    homeGraph(navController)
-  }
+    NavHost(
+        navController = navController,
+        startDestination = startDestination,
+        modifier = modifier,
+    ) {
+        authGraph(
+            onLoginSuccess = {
+                navController.navigate(RootGraph.Home) {
+                    popUpTo(RootGraph.Auth) { inclusive = true }
+                }
+            },
+        )
+        homeGraph(navController)
+    }
 }
 
 @Serializable
 sealed class RootGraph(val route: String) {
 
-  // Начальные страницы (вход, регистрация, онбординг).
-  @Serializable data object Auth : RootGraph("auth_graph")
+    // Начальные страницы (вход, регистрация, онбординг).
+    @Serializable data object Auth : RootGraph("auth_graph")
 
-  // Основные страницы.
-  @Serializable data object Home : RootGraph("home_graph")
+    // Основные страницы.
+    @Serializable data object Home : RootGraph("home_graph")
 }
 
 fun NavGraphBuilder.authGraph(onLoginSuccess: () -> Unit) {
 
-  navigation<RootGraph.Auth>(startDestination = AuthRoute.Login) {
-    composable<AuthRoute.Login> {
-      LoginScreen(
-          onLoginClick = onLoginSuccess,
-      )
+    navigation<RootGraph.Auth>(startDestination = AuthRoute.Login) {
+        composable<AuthRoute.Login> {
+            LoginScreen(
+                onLoginClick = onLoginSuccess,
+            )
+        }
     }
-  }
 }
 
 fun NavGraphBuilder.homeGraph(navController: NavHostController) {
-  navigation<RootGraph.Home>(startDestination = HomeRoute.Main) {
-    composable<HomeRoute.Main> {
-      /*TODO*/
+    composable<RootGraph.Home> {
+        HomeScreen(rootNavController = navController)
     }
-
-    composable<HomeRoute.Favorite> {
-      /*TODO*/
-    }
-
-    composable<HomeRoute.Account> {
-      /*TODO*/
-    }
-
     composable<HomeRoute.Course> {
-      /*TODO*/
+        CourseDetailScreen(onBackClick = { navController.popBackStack() })
     }
-  }
+
 }
