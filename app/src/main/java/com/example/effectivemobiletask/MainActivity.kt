@@ -4,40 +4,36 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.effectivemobiletask.ui.theme.EffectiveMobileTaskTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            EffectiveMobileTaskTheme {
-                CoursesNavGraph()
-            }
-        }
-    }
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    enableEdgeToEdge()
+    setContent { EffectiveMobileTaskTheme { CoursesNavGraph() } }
+  }
 }
 
-
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
+fun HomeScreen(
+    // Для главного графа.
+    rootNavController: NavHostController
+) {
+
+  // Для вложенного графа с главными экранами.
+  val homeNavController = rememberNavController()
+
+
+    // Список вкладок.
+    val bottomBarItems = listOf(
+        BottomBarItem.Main,
+        BottomBarItem.Favorite,
+        BottomBarItem.Account,
     )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    EffectiveMobileTaskTheme {
-        Greeting("Android")
-    }
 }
