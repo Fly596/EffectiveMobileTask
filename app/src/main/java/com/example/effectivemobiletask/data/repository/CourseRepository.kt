@@ -25,15 +25,15 @@ constructor(
     // Обновляет данные в БД из сети.
     override suspend fun refreshCourses() {
         // Получаем данные из сети.
-        val networkCourses = networkRepository.loadCourses().toEntity()
+        val networkCourses = networkRepository.loadCourses()
+        localDataSource.deleteAllCourses()
 
         // Добавляем данные в БД.
-        localDataSource.upsertAll(networkCourses)
+        localDataSource.upsertAll(networkCourses.toEntity())
     }
 
     // Получение данных из БД.
     override fun fetchCourses(): Flow<List<Course>> {
-
         return localDataSource.getAllCourses().map { it.toDomain() }
     }
 
