@@ -34,5 +34,5 @@ interface CourseDao {
             CASE WHEN :isAsc = 1 THEN publishDate END ASC,
             CASE WHEN :isAsc = 0 THEN publishDate END DESC
       """)
-  suspend fun getCoursesSortByPublishDate(isAsc: Boolean)
+  fun getCoursesSortByPublishDate(isAsc: Boolean): Flow<List<CourseEntity>>
 }

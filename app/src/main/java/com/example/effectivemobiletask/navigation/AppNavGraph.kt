@@ -1,5 +1,6 @@
 package com.example.effectivemobiletask.navigation
 
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -10,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -19,7 +21,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
 import com.example.effectivemobiletask.features.account.AccountScreen
-import com.example.effectivemobiletask.features.auth.LoginScreen
+import com.example.effectivemobiletask.features.auth.LoginScreenRoot
 import com.example.effectivemobiletask.features.coursedetails.CourseDetailsScreen
 import com.example.effectivemobiletask.features.favorites.FavoritesScreen
 import com.example.effectivemobiletask.features.main.MainScreen
@@ -89,7 +91,7 @@ fun AppNavGraph(
         NavHost(
             navController = navController,
             startDestination = startDestination,
-            modifier = modifier.padding(innerPadding),
+            modifier = modifier.fillMaxSize().padding(innerPadding).padding(horizontal = 16.dp),
         ) {
             authGraph(
                 onLoginSuccess = {
@@ -117,7 +119,7 @@ fun NavGraphBuilder.authGraph(onLoginSuccess: () -> Unit) {
 
     navigation<RootGraph.Auth>(startDestination = AuthRoute.Login) {
         composable<AuthRoute.Login> {
-            LoginScreen(onLoginClick = onLoginSuccess)
+            LoginScreenRoot(onLoginClick = onLoginSuccess)
         }
     }
 }
