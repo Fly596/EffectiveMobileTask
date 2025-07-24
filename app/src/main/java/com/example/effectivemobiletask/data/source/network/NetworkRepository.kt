@@ -2,13 +2,13 @@ package com.example.effectivemobiletask.data.source.network
 
 import javax.inject.Inject
 
-interface NetworkDataSource {
+interface NetworkRepository {
   suspend fun loadCourses(): List<NetworkCourse>
 }
 
-class NetworkDataSourceImpl
+class NetworkRepositoryImpl
 @Inject
-constructor(private val apiService: ApiService) : NetworkDataSource {
+constructor(private val apiService: ApiService) : NetworkRepository {
 
   override suspend fun loadCourses(): List<NetworkCourse> =
       apiService.getCourses()

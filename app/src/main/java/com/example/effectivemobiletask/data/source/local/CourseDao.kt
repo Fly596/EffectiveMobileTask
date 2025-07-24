@@ -4,15 +4,22 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CourseDao {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertCourse(course: CourseEntity)
+    @Query("SELECT * FROM courses")
+    fun getAllCourses(): Flow<List<CourseEntity>>
+
+    @Query("SELECT * FROM courses WHERE id = :id")
+    suspend fun getCourseById(id: Int): CourseEntity?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertCourses(courses: List<CourseEntity>)
+    suspend fun upsertAll(courses: List<CourseEntity>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertCourse(course: CourseEntity)
 
     @Query("DELETE FROM courses WHERE id = :id")
     suspend fun deleteCourseById(id: Int)
@@ -20,9 +27,4 @@ interface CourseDao {
     @Query("DELETE FROM courses")
     suspend fun deleteAllCourses()
 
-    @Query("SELECT * FROM courses")
-    suspend fun getAllCourses(): List<CourseEntity>?
-
-    @Query("SELECT * FROM courses WHERE id = :id")
-    suspend fun getCourseById(id: Int): CourseEntity?
 }

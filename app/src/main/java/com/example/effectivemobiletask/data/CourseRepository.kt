@@ -1,37 +1,39 @@
 package com.example.effectivemobiletask.data
 
 import com.example.effectivemobiletask.data.source.local.CourseDao
-import com.example.effectivemobiletask.data.source.network.NetworkDataSource
+import com.example.effectivemobiletask.data.source.network.NetworkRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 interface CourseRepository {
-    suspend fun fetchCourses(): List<Course>
+    fun fetchCourses(): Flow<List<Course>>
 
     suspend fun getCourseById(id: Int): Course?
+
+    suspend fun refreshCourses()
 }
 
 class CourseRepositoryImpl
 @Inject
 constructor(
-    private val networkDataSource: NetworkDataSource,
+    private val networkRepository: NetworkRepository,
     private val localDataSource: CourseDao,
 ) : CourseRepository {
 
-    override suspend fun fetchCourses(): List<Course> {
-
-        // Проверка локальных данных.
-        val courseEntities = localDataSource.getAllCourses()
-        if (!courseEntities.isNullOrEmpty()) {
-            return courseEntities.toDomain()
-        }
-
+    // Обновляет данные в БД из сети.
+    override suspend fun refreshCourses() {
         // Получаем данные из сети.
-        val networkCourses = networkDataSource.loadCourses().toEntity()
+        val networkCourses = networkRepository.loadCourses().toEntity()
 
         // Добавляем данные в БД.
-        localDataSource.insertCourses(networkCourses)
+        localDataSource.upsertAll(networkCourses)
+    }
 
-        return networkCourses.toDomain()
+    // Получение данных из БД.
+    override fun fetchCourses(): Flow<List<Course>> {
+
+        return localDataSource.getAllCourses().map { it.toDomain() }
     }
 
     override suspend fun getCourseById(id: Int): Course? {

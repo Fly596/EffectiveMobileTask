@@ -6,8 +6,8 @@ import com.example.effectivemobiletask.data.CourseRepository
 import com.example.effectivemobiletask.data.CourseRepositoryImpl
 import com.example.effectivemobiletask.data.source.local.AppDatabase
 import com.example.effectivemobiletask.data.source.local.CourseDao
-import com.example.effectivemobiletask.data.source.network.NetworkDataSource
-import com.example.effectivemobiletask.data.source.network.NetworkDataSourceImpl
+import com.example.effectivemobiletask.data.source.network.NetworkRepository
+import com.example.effectivemobiletask.data.source.network.NetworkRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -30,7 +30,7 @@ abstract class RepositoryModule {
 abstract class NetworkDataSourceModule {
     @Singleton
     @Binds
-    abstract fun bindNetworkDataSource(dataSource: NetworkDataSourceImpl): NetworkDataSource
+    abstract fun bindNetworkDataSource(dataSource: NetworkRepositoryImpl): NetworkRepository
 }
 
 @Module
@@ -48,5 +48,7 @@ object DatabaseModule {
             .build()
     }
 
-    @Provides fun provideTaskDao(database: AppDatabase): CourseDao = database.courseDao()
+    @Provides
+    @Singleton
+    fun provideTaskDao(database: AppDatabase): CourseDao = database.courseDao()
 }

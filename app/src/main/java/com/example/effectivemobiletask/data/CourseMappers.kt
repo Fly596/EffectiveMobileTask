@@ -8,17 +8,15 @@ import java.time.ZoneId
 // Mapper из Network в Entity.
 // Вызывается после получения данных из сети.
 fun NetworkCourse.toEntity(): CourseEntity {
-  val instantStart = Instant.parse(this.startDate)
-  val instantPublish = Instant.parse(this.publishDate)
   return CourseEntity(
       id = this.id,
       title = this.title,
       text = this.text,
-      price = this.price,
-      rate = this.rate,
-      startDate = instantStart.toEpochMilli(),
+      price = this.price.toDoubleOrNull()?:0.0,
+      rate = this.rate.toFloatOrNull()?:0.0f,
+      startDate = Instant.parse(this.startDate).toEpochMilli(),
       hasLike = this.hasLike,
-      publishDate = instantPublish.toEpochMilli(),
+      publishDate = Instant.parse(this.publishDate).toEpochMilli(),
   )
 }
 
@@ -33,7 +31,7 @@ fun CourseEntity.toDomain(): Course {
         id = this.id,
         title = this.title,
         text = this.text,
-        price = this.price,
+        price = this.price.toBigDecimal(),
         rate = this.rate,
         startDate = localStartDate,
         hasLike = this.hasLike,
