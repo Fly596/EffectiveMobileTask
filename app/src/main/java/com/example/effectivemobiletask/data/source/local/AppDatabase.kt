@@ -2,7 +2,6 @@ package com.example.effectivemobiletask.data.source.local
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import androidx.room.TypeConverters
 
 @Database(
     entities = [
@@ -11,8 +10,7 @@ import androidx.room.TypeConverters
     version = 1,
     exportSchema = false
 )
-@TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
 
-    abstract val courseDao: CourseDao
+    abstract fun courseDao(): CourseDao
 }

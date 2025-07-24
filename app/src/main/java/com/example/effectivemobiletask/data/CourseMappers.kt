@@ -46,6 +46,7 @@ fun List<CourseEntity>.toDomain():List<Course>{
     return this.map { it.toDomain() }
 }
 
+
 fun List<NetworkCourse>.toEntity():List<CourseEntity>{
     return this.map { it.toEntity() }
 }
