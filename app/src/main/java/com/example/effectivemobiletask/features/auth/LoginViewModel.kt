@@ -54,8 +54,12 @@ class LoginViewModel @Inject constructor() : ViewModel() {
         _uiState.update { it.copy(password = input) }
     }
 
-    fun onLoginConfirm(){
-
+    fun onLoginConfirm(email: String, password: String):Boolean{
+        if (email.isNotBlank()&&password.isNotBlank()){
+            return true
+        }else{
+            return false
+        }
     }
 
 }
