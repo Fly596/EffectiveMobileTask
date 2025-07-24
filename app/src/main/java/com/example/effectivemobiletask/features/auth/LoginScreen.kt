@@ -25,6 +25,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.intl.LocaleList
 import androidx.compose.ui.unit.dp
@@ -51,6 +53,29 @@ fun LoginScreenRoot(
 
         // Поля ввода.
         Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+            InputField(
+                value = state.email,
+                onValueChange = viewModel::updateEmail,
+                label = "Email",
+                keyboardOptions =
+                    KeyboardOptions(
+                        keyboardType = KeyboardType.Email,
+                        hintLocales = LocaleList(Locale("en")),
+                        imeAction = ImeAction.Next,
+                    ),
+                title = "Заголовок почта",
+            )
+            InputField(
+                value = state.password,
+                onValueChange = viewModel::updatePassword,
+                label = "Password",
+                keyboardOptions =
+                    KeyboardOptions(
+                        keyboardType = KeyboardType.Password,
+                        imeAction = ImeAction.Done,
+                    ),
+                title = "Заголовок пароль",
+            )
             OutlinedTextField(
                 value = state.email,
                 onValueChange = { viewModel.updateEmail(it) },
@@ -116,10 +141,13 @@ fun LoginScreenRoot(
 
 @Composable
 fun InputField(
-    modifier: Modifier = Modifier,
-    title: String,
-    label: String,
     value: String,
+    onValueChange: (String) -> Unit,
+    label: String,
+    title: String,
+    modifier: Modifier = Modifier,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    isPassword: Boolean = false,
 ) {
     var input by remember { mutableStateOf("") }
 
@@ -129,9 +157,14 @@ fun InputField(
     ) {
         Text(text = title, style = MaterialTheme.typography.titleMedium)
         OutlinedTextField(
-            value = input,
+            value = value,
+            onValueChange = onValueChange,
             label = { Text(label) },
-            onValueChange = { input = it },
+            keyboardOptions = keyboardOptions,
+            singleLine = true,
+            visualTransformation =
+                if (isPassword) PasswordVisualTransformation()
+                else VisualTransformation.None,
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(30.dp),
             colors =
