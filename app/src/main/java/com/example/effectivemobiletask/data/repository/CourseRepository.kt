@@ -1,7 +1,8 @@
-package com.example.effectivemobiletask.data
+package com.example.effectivemobiletask.data.repository
 
-import com.example.effectivemobiletask.data.source.local.CourseDao
-import com.example.effectivemobiletask.data.source.network.NetworkRepository
+import com.example.effectivemobiletask.data.Course
+import com.example.effectivemobiletask.data.local.CourseDao
+import com.example.effectivemobiletask.data.network.NetworkRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject

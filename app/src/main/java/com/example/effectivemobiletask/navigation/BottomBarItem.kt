@@ -1,6 +1,5 @@
-package com.example.effectivemobiletask.ui
+package com.example.effectivemobiletask.navigation
 
-import com.example.effectivemobiletask.HomeRoute
 import com.example.effectivemobiletask.R
 
 sealed class BottomBarItem(

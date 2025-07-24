@@ -1,7 +1,8 @@
-package com.example.effectivemobiletask.data
+package com.example.effectivemobiletask.data.repository
 
-import com.example.effectivemobiletask.data.source.local.CourseEntity
-import com.example.effectivemobiletask.data.source.network.NetworkCourse
+import com.example.effectivemobiletask.data.Course
+import com.example.effectivemobiletask.data.local.CourseEntity
+import com.example.effectivemobiletask.data.network.NetworkCourse
 import java.time.Instant
 import java.time.ZoneId
 

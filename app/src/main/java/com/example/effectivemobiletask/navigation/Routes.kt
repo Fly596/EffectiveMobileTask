@@ -1,4 +1,4 @@
-package com.example.effectivemobiletask
+package com.example.effectivemobiletask.navigation
 
 import kotlinx.serialization.Serializable
 

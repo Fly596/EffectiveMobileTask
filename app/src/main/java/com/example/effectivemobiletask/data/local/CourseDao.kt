@@ -1,4 +1,4 @@
-package com.example.effectivemobiletask.data.source.local
+package com.example.effectivemobiletask.data.local
 
 import androidx.room.Dao
 import androidx.room.Insert

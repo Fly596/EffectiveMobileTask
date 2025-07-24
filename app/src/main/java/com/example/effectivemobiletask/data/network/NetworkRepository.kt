@@ -1,4 +1,4 @@
-package com.example.effectivemobiletask.data.source.network
+package com.example.effectivemobiletask.data.network
 
 import javax.inject.Inject
 

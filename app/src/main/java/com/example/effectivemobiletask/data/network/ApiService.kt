@@ -1,4 +1,4 @@
-package com.example.effectivemobiletask.data.source.network
+package com.example.effectivemobiletask.data.network
 
 import retrofit2.http.GET
 import retrofit2.http.Path

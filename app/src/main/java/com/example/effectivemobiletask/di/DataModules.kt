@@ -2,12 +2,12 @@ package com.example.effectivemobiletask.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.effectivemobiletask.data.CourseRepository
-import com.example.effectivemobiletask.data.CourseRepositoryImpl
-import com.example.effectivemobiletask.data.source.local.AppDatabase
-import com.example.effectivemobiletask.data.source.local.CourseDao
-import com.example.effectivemobiletask.data.source.network.NetworkRepository
-import com.example.effectivemobiletask.data.source.network.NetworkRepositoryImpl
+import com.example.effectivemobiletask.data.repository.CourseRepository
+import com.example.effectivemobiletask.data.repository.CourseRepositoryImpl
+import com.example.effectivemobiletask.data.local.AppDatabase
+import com.example.effectivemobiletask.data.local.CourseDao
+import com.example.effectivemobiletask.data.network.NetworkRepository
+import com.example.effectivemobiletask.data.network.NetworkRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides

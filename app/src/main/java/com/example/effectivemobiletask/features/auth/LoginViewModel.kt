@@ -1,4 +1,4 @@
-package com.example.effectivemobiletask.ui.screens.login
+package com.example.effectivemobiletask.features.auth
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,11 +10,11 @@ import javax.inject.Inject
 
 // Определяем возможное событие.
 sealed class UiEvent{
-    data class OpenUrl(val url: String):UiEvent()
+    data class OpenUrl(val url: String): UiEvent()
 }
 
 @HiltViewModel
-class LoginScreenViewModel @Inject constructor() : ViewModel() {
+class LoginViewModel @Inject constructor() : ViewModel() {
 
     private val _uiEvent = Channel<UiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()

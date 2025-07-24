@@ -1,6 +1,6 @@
 package com.example.effectivemobiletask.di
 
-import com.example.effectivemobiletask.data.source.network.ApiService
+import com.example.effectivemobiletask.data.network.ApiService
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
