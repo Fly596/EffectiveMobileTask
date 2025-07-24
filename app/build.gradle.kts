@@ -5,6 +5,7 @@ plugins {
   alias(libs.plugins.kotlin.compose)
   alias(libs.plugins.ksp)
   alias(libs.plugins.hilt)
+  id("com.ncorti.ktfmt.gradle") version "0.23.0"
 }
 
 android {
@@ -83,4 +84,13 @@ dependencies {
   androidTestImplementation(libs.androidx.ui.test.junit4)
   debugImplementation(libs.androidx.ui.tooling)
   debugImplementation(libs.androidx.ui.test.manifest)
+}
+
+ktfmt {
+  // Breaks lines longer than maxWidth. Default 100.
+  maxWidth.set(80)
+  // Whether ktfmt should remove imports that are not used.
+  removeUnusedImports.set(false)
+  // Whether ktfmt should automatically add/remove trailing commas.
+  manageTrailingCommas.set(false)
 }
