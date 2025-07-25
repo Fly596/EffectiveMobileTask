@@ -2,29 +2,52 @@ package com.example.effectivemobiletask.navigation
 
 import com.example.effectivemobiletask.R
 
-sealed class BottomBarItem(
-    val route: HomeRoute,
+enum class BottomNavigation(val label: String, val icon: Int, val route: Any){
+    MAIN("Main",R.drawable.house,Main),
+    FAVORITE("Favorite",R.drawable.bookmark,Favorite),
+    ACCOUNT("Account",R.drawable.person,Account),
+}
+
+/*data class TopLevelRoute<T : Any>(
+    val route: T,
+    val name: String,
+    val icon: Int,
+)
+
+val topLevelRoutes =
+    listOf(
+        TopLevelRoute(Main, "Main", R.drawable.house),
+        TopLevelRoute(Favorite, "Favorite", R.drawable.bookmark),
+        TopLevelRoute(Account, "Account", R.drawable.person),
+    )*/
+
+/*sealed class BottomBarItem<T : Any>(
+    val route: T,
     val title: String,
     val iconDefault: Int,
     val iconSelected: Int,
 ) {
     data object Main :
         BottomBarItem(
-            HomeRoute.Main, "Main",
+            Main,
+            "Main",
             R.drawable.house,
-            R.drawable.house_selected)
+            R.drawable.house_selected,
+        )
 
     data object Favorite :
         BottomBarItem(
-            HomeRoute.Favorite,
+            Favorite,
             "Favorites",
             R.drawable.bookmark,
-            R.drawable.bookmark_selected)
+            R.drawable.bookmark_selected,
+        )
 
     data object Account :
         BottomBarItem(
-            HomeRoute.Account,
+            Account,
             "Account",
             R.drawable.person,
-            R.drawable.person_selected)
-}
+            R.drawable.person_selected,
+        )
+}*/

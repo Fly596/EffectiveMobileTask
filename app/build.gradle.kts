@@ -60,6 +60,7 @@ dependencies {
   // DI (Hilt)
   implementation(libs.google.hilt.android)
     implementation(libs.androidx.media3.common.ktx)
+    implementation(libs.androidx.material)
     ksp(libs.google.hilt.compiler)
   implementation(libs.androidx.hilt.navigation.compose)
 
