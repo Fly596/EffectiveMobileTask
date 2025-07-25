@@ -46,7 +46,7 @@ fun CourseEntity.toDomain(): Course {
         id = this.id,
         title = this.title,
         text = this.text,
-        price = this.price.toBigDecimal(),
+        price = this.price.toDouble(),
         rate = this.rate,
         startDate = localStartDate,
         hasLike = this.hasLike,
