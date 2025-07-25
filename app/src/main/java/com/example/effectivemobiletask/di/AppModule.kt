@@ -1,12 +1,10 @@
 package com.example.effectivemobiletask.di
 
-import com.example.effectivemobiletask.data.network.ApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
-import retrofit2.Retrofit
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -28,11 +26,4 @@ object AppModule {
             .readTimeout(30, TimeUnit.SECONDS)
             .build()
 
-
-    // Api Service.
-    @Provides
-    @Singleton
-    fun provideApiService(retrofit: Retrofit): ApiService {
-        return retrofit.create(ApiService::class.java)
-    }
 }

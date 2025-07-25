@@ -17,9 +17,6 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -48,7 +45,9 @@ fun LoginScreenRoot(
         Text(
             text = "Вход",
             style = MaterialTheme.typography.headlineLarge,
-            modifier = Modifier.fillMaxWidth().padding(top = 140.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 140.dp),
         )
 
         // Поля ввода.
@@ -64,6 +63,7 @@ fun LoginScreenRoot(
                         imeAction = ImeAction.Next,
                     ),
                 title = "Заголовок почта",
+                modifier = Modifier.fillMaxWidth()
             )
             InputField(
                 value = state.password,
@@ -75,26 +75,9 @@ fun LoginScreenRoot(
                         imeAction = ImeAction.Done,
                     ),
                 title = "Заголовок пароль",
+                modifier = Modifier.fillMaxWidth()
             )
-            OutlinedTextField(
-                value = state.email,
-                onValueChange = { viewModel.updateEmail(it) },
-                keyboardOptions =
-                    KeyboardOptions(
-                        hintLocales = LocaleList(Locale("en")),
-                        keyboardType = KeyboardType.Email,
-                        imeAction = ImeAction.Next,
-                    ),
-            )
-            OutlinedTextField(
-                value = state.password,
-                onValueChange = { viewModel.updatePassword(it) },
-                keyboardOptions =
-                    KeyboardOptions(
-                        keyboardType = KeyboardType.Password,
-                        imeAction = ImeAction.Done,
-                    ),
-            )
+
         }
 
         Button(
@@ -144,18 +127,19 @@ fun InputField(
     value: String,
     onValueChange: (String) -> Unit,
     label: String,
-    title: String,
+    title: String? = null,
     modifier: Modifier = Modifier,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     isPassword: Boolean = false,
 ) {
-    var input by remember { mutableStateOf("") }
 
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        Text(text = title, style = MaterialTheme.typography.titleMedium)
+        if(title != null){
+            Text(text = title, style = MaterialTheme.typography.titleMedium)
+        }
         OutlinedTextField(
             value = value,
             onValueChange = onValueChange,
@@ -165,7 +149,7 @@ fun InputField(
             visualTransformation =
                 if (isPassword) PasswordVisualTransformation()
                 else VisualTransformation.None,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = modifier,
             shape = RoundedCornerShape(30.dp),
             colors =
                 OutlinedTextFieldDefaults.colors(

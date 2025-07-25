@@ -1,7 +1,6 @@
 package com.example.effectivemobiletask.navigation
 
-import com.example.effectivemobiletask.R
-
+/*
 sealed class BottomBarItem(
     val route: HomeRoute,
     val title: String,
@@ -28,3 +27,4 @@ sealed class BottomBarItem(
             R.drawable.person,
             R.drawable.person_selected)
 }
+*/

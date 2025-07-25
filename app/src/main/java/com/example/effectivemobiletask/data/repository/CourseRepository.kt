@@ -2,15 +2,12 @@ package com.example.effectivemobiletask.data.repository
 
 import com.example.effectivemobiletask.data.Course
 import com.example.effectivemobiletask.data.local.CourseDao
-import com.example.effectivemobiletask.data.network.NetworkResponse
+import com.example.effectivemobiletask.data.network.NetworkRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
-import kotlinx.serialization.json.Json
 import okhttp3.OkHttpClient
-import okhttp3.Request
-import okio.IOException
 import javax.inject.Inject
 
 interface CourseRepository {
@@ -26,13 +23,17 @@ class CourseRepositoryImpl
 constructor(
     private val okHttpClient: OkHttpClient,
     private val localDataSource: CourseDao,
+    private val networkRepository: NetworkRepository,
 ) : CourseRepository {
-    private val fileUrl = "https://drive.usercontent.google.com/u/0/uc?id=15arTK7XT2b7Yv4BJsmDctA4Hg-BbS8-q&export=download"
 
     // Обновляет данные в БД из сети.
     override suspend fun refreshCourses() {
         withContext(Dispatchers.IO){
-            val request = Request.Builder().url(fileUrl).build()
+            val networkCourses= networkRepository.loadCourses()
+            if(networkCourses != null){
+                localDataSource.upsertAll(networkCourses.courses.toEntity())
+            }
+/*            val request = Request.Builder().url(fileUrl).build()
 
             try{
                 val response = okHttpClient.newCall(request).execute()
@@ -51,7 +52,7 @@ constructor(
             }catch (e: IOException){
                 // error handle
 
-            }
+            }*/
         }
     }
 

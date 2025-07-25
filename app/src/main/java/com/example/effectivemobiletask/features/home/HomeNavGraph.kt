@@ -1,15 +1,5 @@
 package com.example.effectivemobiletask.features.home
 
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import com.example.effectivemobiletask.features.account.AccountScreen
-import com.example.effectivemobiletask.features.favorites.FavoritesScreen
-import com.example.effectivemobiletask.features.main.MainScreen
-import com.example.effectivemobiletask.navigation.HomeRoute
-
 /*
 @Composable
 fun HomeNavGraph(

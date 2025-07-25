@@ -30,13 +30,23 @@ class MainViewModel @Inject constructor(
     val uiState = _uiState.asStateFlow()
 
     init {
+        fetchCourses()
+    }
+
+    fun fetchCourses() {
+        _uiState.update { it.copy(isLoading = true) }
+
         viewModelScope.launch {
             repository.refreshCourses()
 
             repository.fetchCourses().collect { courses ->
                 _uiState.update { it.copy(courses = courses) }
+                _uiState.update { it.copy(isLoading = false) }
+
             }
+
         }
+
     }
 
 

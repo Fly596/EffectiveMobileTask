@@ -1,109 +1,115 @@
 package com.example.effectivemobiletask.navigation
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
-import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
-import com.example.effectivemobiletask.features.account.AccountScreen
 import com.example.effectivemobiletask.features.auth.LoginScreenRoot
-import com.example.effectivemobiletask.features.coursedetails.CourseDetailsScreen
-import com.example.effectivemobiletask.features.favorites.FavoritesScreen
 import com.example.effectivemobiletask.features.main.MainScreen
-import kotlinx.serialization.Serializable
 
 @Composable
+@SuppressLint("RestrictedApi")
 fun AppNavGraph(
     modifier: Modifier = Modifier,
-    startDestination: RootGraph = RootGraph.Auth,
+    navController: NavHostController = rememberNavController(),
 ) {
-    val navController: NavHostController = rememberNavController()
 
-    // Список вкладок.
-    val bottomBarItems =
-        listOf(
-            BottomBarItem.Main,
-            BottomBarItem.Favorite,
-            BottomBarItem.Account,
-        )
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
+        ?: BottomNavigation.MAIN.route::class.qualifiedName.orEmpty()
 
+    val currentRouteTrimmed by remember(currentRoute) {
+        derivedStateOf { currentRoute.substringBefore("?") }
+    }
     Scaffold(
         bottomBar = {
-            // Получение текущего маршрута.
-            val navBackStackEntry by
-                navController.currentBackStackEntryAsState()
-            val currentDestination = navBackStackEntry?.destination?.route
+            BottomAppBar {
+                BottomNavigation.entries
+                    .forEachIndexed { index, navigationItem ->
 
-            val shouldShowBottomBar =
-                when (currentDestination) {
-                    "main",
-                    "favorite",
-                    "account" -> true
-                    else -> false
-                }
+                        val isSelected by remember(currentRoute) {
+                            derivedStateOf { currentRouteTrimmed == navigationItem.route::class.qualifiedName }
+                        }
 
-            if (shouldShowBottomBar) {
-                NavigationBar {
-                    bottomBarItems.forEach { item ->
                         NavigationBarItem(
+                            selected = isSelected,
+                            label = { Text(navigationItem.label) },
                             icon = {
                                 Icon(
-                                    painter = painterResource(item.iconDefault),
-                                    contentDescription = item.title,
+                                    painterResource(navigationItem.icon),
+                                    contentDescription = navigationItem.label,
                                 )
+
                             },
-                            selected = currentDestination == item.route.route,
-                            label = { Text(item.title) },
                             onClick = {
-                                navController.navigate(item.route) {
-                                    popUpTo(
-                                        navController.graph
-                                            .findStartDestination()
-                                            .id
-                                    ) {
-                                        saveState = true
-                                    }
-                                    launchSingleTop = true
-                                    restoreState = true
-                                }
+                                navController.navigate(navigationItem.route)
                             },
                         )
                     }
-                }
             }
-        }
+        },
     ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = startDestination,
-            modifier = modifier.fillMaxSize().padding(innerPadding).padding(horizontal = 16.dp),
+            startDestination = Destinations.Login,
+            modifier = modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .padding(horizontal = 16.dp),
         ) {
-            authGraph(
-                onLoginSuccess = {
-                    navController.navigate(RootGraph.Home) {
-                        popUpTo(RootGraph.Auth) { inclusive = true }
-                    }
+
+            composable<Destinations.Login> {
+                LoginScreenRoot (
+                    onLoginClick = {
+                        navController.navigate(Destinations.HomeGraph)
+                    },
+                )
+            }
+            navigation<Destinations.HomeGraph>(
+                startDestination = Destinations.Main,
+            ) {
+
+                composable<Destinations.Main> {
+                    MainScreen(
+                        onCourseClick = { id ->
+                            navController.navigate(Destinations.CourseInfo(id))
+                        },
+                    )
                 }
-            )
-            homeGraph(navController)
+
+                composable<Destinations.Favorite> {
+                    // Greeting("Search")
+                }
+
+                composable<Destinations.Account> {
+                    //Greeting("Profile")
+                }
+
+            }
+            composable<Destinations.CourseInfo> { backStackEntry ->
+                //Greeting("Profile")
+            }
         }
     }
 }
+/*
 
 @Serializable
 sealed class RootGraph(val route: String) {
@@ -117,7 +123,7 @@ sealed class RootGraph(val route: String) {
 
 fun NavGraphBuilder.authGraph(onLoginSuccess: () -> Unit) {
 
-    navigation<RootGraph.Auth>(startDestination = AuthRoute.Login) {
+    navigation<RootGraph.Auth>(startDestination = AuthRoute.Login.route) {
         composable<AuthRoute.Login> {
             LoginScreenRoot(onLoginClick = onLoginSuccess)
         }
@@ -126,7 +132,7 @@ fun NavGraphBuilder.authGraph(onLoginSuccess: () -> Unit) {
 
 fun NavGraphBuilder.homeGraph(navController: NavHostController) {
     //composable<RootGraph.Home> { HomeScreen(rootNavController = navController) }
-    navigation<RootGraph.Home>(startDestination = HomeRoute.Main){
+    navigation<RootGraph.Home>(startDestination = HomeRoute.Main) {
         composable<HomeRoute.Main> {
             MainScreen(
                 onCourseClick = { courseId ->
@@ -150,3 +156,4 @@ fun NavGraphBuilder.homeGraph(navController: NavHostController) {
     }
 
 }
+*/

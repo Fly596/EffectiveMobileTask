@@ -14,6 +14,13 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContent { EffectiveMobileTaskTheme { AppNavGraph() } }
+        setContent {
+            EffectiveMobileTaskTheme {
+
+
+
+                AppNavGraph()
+            }
+        }
     }
 }
