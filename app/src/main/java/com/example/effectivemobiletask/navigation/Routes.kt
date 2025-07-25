@@ -4,6 +4,7 @@ import com.example.effectivemobiletask.R
 import kotlinx.serialization.Serializable
 
 
+@Serializable
 sealed class Destinations {
 
     @Serializable

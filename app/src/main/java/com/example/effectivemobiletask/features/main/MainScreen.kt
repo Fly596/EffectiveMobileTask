@@ -73,6 +73,9 @@ fun MainScreen(
                 contentDescription = "sort",
                 tint = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.clickable(onClick = {
+                    viewModel.updateSortingOption(true)
+
+                    viewModel.sortCourses()
                     // ! фильтрация
                 })
             )

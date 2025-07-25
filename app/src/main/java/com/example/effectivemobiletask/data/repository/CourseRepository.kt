@@ -11,7 +11,7 @@ import okhttp3.OkHttpClient
 import javax.inject.Inject
 
 interface CourseRepository {
-    fun fetchCourses(): Flow<List<Course>>
+    fun fetchCourses(isAsc: Boolean? = null): Flow<List<Course>>
 
     suspend fun getCourseById(id: Int): Course?
 
@@ -57,11 +57,17 @@ constructor(
     }
 
     // Получение данных из БД.
-    override fun fetchCourses(): Flow<List<Course>> {
-        return localDataSource.getAllCourses().map { it.toDomain() }
+    override fun fetchCourses(isAsc: Boolean?): Flow<List<Course>> {
+        return if(isAsc == null){
+            localDataSource.getAllCourses().map { it.toDomain() }
+        }else{
+            localDataSource.getCoursesSortByPublishDate(isAsc = isAsc).map { it.toDomain() }
+        }
     }
 
     override suspend fun getCourseById(id: Int): Course? {
         return localDataSource.getCourseById(id)?.toDomain()
     }
+
+
 }
