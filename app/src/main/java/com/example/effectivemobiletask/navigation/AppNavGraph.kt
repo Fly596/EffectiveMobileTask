@@ -85,7 +85,7 @@ fun AppNavGraph(
     ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = Destinations.Login,
+            startDestination = Destinations.HomeGraph, //!FOR TESTING, change to login.
             modifier =
                 modifier
                     .fillMaxSize()
