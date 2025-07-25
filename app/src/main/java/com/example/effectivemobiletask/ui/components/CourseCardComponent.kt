@@ -47,9 +47,7 @@ fun CourseCard(
         Column(
             verticalArrangement = Arrangement.spacedBy(8.dp),
             horizontalAlignment = Alignment.End,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 16.dp),
+            modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp),
         ) {
             CourseCardTopSection(
                 rate = course.rate.toString(),
@@ -66,8 +64,7 @@ fun CourseCard(
             )
             Row(
                 modifier =
-                    Modifier
-                        .padding(horizontal = 16.dp)
+                    Modifier.padding(horizontal = 16.dp)
                         .clickable(onClick = { { onCardClick(course.id) } }),
                 verticalAlignment = Alignment.Top,
             ) {
@@ -78,7 +75,7 @@ fun CourseCard(
                 )
                 Icon(
                     painter =
-                        painterResource(R.drawable.arrow_right_short_fill),
+                        painterResource(R.drawable.outline_arrow_forward_24),
                     tint = MaterialTheme.colorScheme.primary,
                     contentDescription = null,
                 )
@@ -105,23 +102,19 @@ fun CourseCardTopSection(
             contentScale = ContentScale.Crop,
             alignment = Alignment.TopCenter,
             modifier =
-                Modifier
-                    .fillMaxWidth()
+                Modifier.fillMaxWidth()
                     .height(132.dp)
                     .clip(RoundedCornerShape(12.dp)),
         )
         Row(
             modifier =
-                Modifier
-                    .padding(start = 8.dp, bottom = 8.dp)
-                    .fillMaxWidth(),
+                Modifier.padding(start = 8.dp, bottom = 8.dp).fillMaxWidth(),
             verticalAlignment = Alignment.Bottom,
             horizontalArrangement = Arrangement.spacedBy(4.dp),
         ) {
             Row(
                 modifier =
-                    Modifier
-                        .background(
+                    Modifier.background(
                             color =
                                 Color(
                                     red = 1f,
@@ -146,8 +139,7 @@ fun CourseCardTopSection(
             }
             Row(
                 modifier =
-                    Modifier
-                        .background(
+                    Modifier.background(
                             color =
                                 Color(
                                     red = 1f,
@@ -171,9 +163,7 @@ fun CourseCardTopSection(
             modifier = Modifier.matchParentSize(),
             horizontalArrangement = Arrangement.End,
         ) {
-            IconButton(
-                onClick =  onAddToFavorite
-                , modifier = Modifier) {
+            IconButton(onClick = onAddToFavorite, modifier = Modifier) {
                 Icon(
                     painter =
                         if (isBookmarked)

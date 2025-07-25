@@ -61,7 +61,7 @@ fun MainScreen(
             )
             Spacer(modifier = Modifier.width(4.dp))
             Icon(
-                painter = painterResource(R.drawable.arrow_down_up),
+                painter = painterResource(R.drawable.outline_swap_vert_24),
                 contentDescription = "sort",
                 tint = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.clickable(onClick = {
@@ -129,7 +129,7 @@ fun SearchAndFilter(modifier: Modifier = Modifier) {
             enabled = false,
             leadingIcon = {
                 Icon(
-                    painter = painterResource(R.drawable.search),
+                    painter = painterResource(R.drawable.outline_search_24),
                     contentDescription = null,
                 )
             },
@@ -142,7 +142,7 @@ fun SearchAndFilter(modifier: Modifier = Modifier) {
 
         IconButton(onClick = {}, modifier = Modifier, enabled = false) {
             Icon(
-                painter = painterResource(R.drawable.funnel),
+                painter = painterResource(R.drawable.outline_filter_alt_24),
                 contentDescription = "filter",
                 modifier = Modifier.size(32.dp),
             )

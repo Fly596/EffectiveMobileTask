@@ -2,16 +2,19 @@ package com.example.effectivemobiletask.features.auth
 
 import android.content.Intent
 import android.net.Uri
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -23,13 +26,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.effectivemobiletask.R
 import com.example.effectivemobiletask.ui.components.EmailTextField
 
 @Composable
@@ -81,7 +87,8 @@ fun LoginScreenRoot(
             },
             modifier = Modifier.fillMaxWidth(),
         ) {
-            Text("Вход")
+            Text("Вход",
+                modifier = Modifier,)
         }
 
         // Регистрация/ восстановление пароля.
@@ -114,14 +121,38 @@ fun LoginScreenRoot(
             Button(
                 onClick = { viewModel.onOpenVkClicked() },
                 modifier = Modifier.weight(0.5f),
+                colors =
+                    ButtonDefaults.buttonColors(
+                        containerColor = Color.Blue,
+                        contentColor = Color.Cyan,
+                    ),
             ) {
-                Text("VK")
+                Image(
+                    painterResource(R.drawable.icon_vk),
+                    contentDescription = null,
+                    contentScale = ContentScale.FillHeight,
+                    modifier = Modifier.height(36.dp),
+                )
+
+                // Text("VK")
             }
             Button(
                 onClick = { viewModel.onOpenOkClicked() },
                 modifier = Modifier.weight(0.5f),
+                colors =
+                    ButtonDefaults.buttonColors(
+                        containerColor = Color.Red,
+                        contentColor = Color.Yellow,
+                    ),
             ) {
-                Text("OK")
+                Image(
+                    painterResource(R.drawable.icon_ok),
+                    contentDescription = null,
+                    contentScale = ContentScale.FillHeight,
+                    modifier = Modifier.height(36.dp),
+                )
+
+                // Text("OK")
             }
         }
     }

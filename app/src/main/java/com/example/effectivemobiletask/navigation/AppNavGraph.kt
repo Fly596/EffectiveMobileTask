@@ -21,7 +21,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
+import androidx.navigation.toRoute
 import com.example.effectivemobiletask.features.auth.LoginScreenRoot
+import com.example.effectivemobiletask.features.coursedetails.CourseDetailsScreen
 import com.example.effectivemobiletask.features.favorites.FavoritesScreen
 import com.example.effectivemobiletask.features.main.MainScreen
 
@@ -121,6 +123,11 @@ fun AppNavGraph(
                 }
             }
             composable<Destinations.CourseInfo> { backStackEntry ->
+                val courseDetails: Destinations.CourseInfo = backStackEntry.toRoute()
+
+                CourseDetailsScreen(onBackClick = {
+                    navController.navigateUp()
+                })
                 // Greeting("Profile")
             }
         }
