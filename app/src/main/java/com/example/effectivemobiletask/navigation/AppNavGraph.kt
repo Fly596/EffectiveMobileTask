@@ -22,6 +22,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
 import com.example.effectivemobiletask.features.auth.LoginScreenRoot
+import com.example.effectivemobiletask.features.favorites.FavoritesScreen
 import com.example.effectivemobiletask.features.main.MainScreen
 
 @Composable
@@ -108,7 +109,11 @@ fun AppNavGraph(
                 }
 
                 composable<Destinations.Favorite> {
-                    // Greeting("Search")
+                    FavoritesScreen(
+                        onCourseClick = {id->
+                            navController.navigate(Destinations.CourseInfo(id))
+                        }
+                    )
                 }
 
                 composable<Destinations.Account> {

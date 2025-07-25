@@ -17,8 +17,6 @@ class MainActivity : ComponentActivity() {
         setContent {
             EffectiveMobileTaskTheme {
 
-
-
                 AppNavGraph()
             }
         }

@@ -16,6 +16,10 @@ interface CourseRepository {
     suspend fun getCourseById(id: Int): Course?
 
     suspend fun refreshCourses()
+
+    suspend fun setBookmark(id: Int)
+
+    fun getFavoritesCourses():Flow<List<Course>>
 }
 
 class CourseRepositoryImpl
@@ -33,26 +37,7 @@ constructor(
             if(networkCourses != null){
                 localDataSource.upsertAll(networkCourses.courses.toEntity())
             }
-/*            val request = Request.Builder().url(fileUrl).build()
 
-            try{
-                val response = okHttpClient.newCall(request).execute()
-                if(response.isSuccessful){
-                    val jsonString = response.body?.string()
-                    if(!jsonString.isNullOrEmpty()){
-                        val json = Json{
-                            ignoreUnknownKeys = true
-                        }
-                        val networkCourses = json.decodeFromString<NetworkResponse>(jsonString)
-                        localDataSource.upsertAll(networkCourses.courses.toEntity())
-                    }else{
-                        // error handle
-                    }
-                }
-            }catch (e: IOException){
-                // error handle
-
-            }*/
         }
     }
 
@@ -69,5 +54,12 @@ constructor(
         return localDataSource.getCourseById(id)?.toDomain()
     }
 
+    override suspend fun setBookmark(id: Int) {
+        localDataSource.updateFavouriteStatus(id)
+    }
+
+    override fun getFavoritesCourses(): Flow<List<Course>> {
+        return localDataSource.getFavoritesCourses().map { it.toDomain() }
+    }
 
 }

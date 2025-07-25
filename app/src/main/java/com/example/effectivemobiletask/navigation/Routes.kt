@@ -17,7 +17,7 @@ sealed class Destinations {
     data object Main : Destinations()
 
     @Serializable
-    data class Favorite(val searchText: String? = null) : Destinations()
+    data object Favorite : Destinations()
 
     @Serializable
     data object Account : Destinations()
@@ -29,6 +29,6 @@ sealed class Destinations {
 // Компоненты навигации.
 enum class BottomNavigation(val label: String, val icon: Int, val route: Destinations) {
     MAIN("Main", R.drawable.house, Destinations.Main),
-    SEARCH("Favourite", R.drawable.search, Destinations.Favorite()),
+    FAVORITES("Favourite", R.drawable.bookmark, Destinations.Favorite),
     PROFILE("Profile", R.drawable.person, Destinations.Account);
 }
