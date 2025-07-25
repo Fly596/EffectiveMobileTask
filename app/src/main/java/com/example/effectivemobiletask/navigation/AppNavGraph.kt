@@ -32,21 +32,35 @@ fun AppNavGraph(
 ) {
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentRoute = navBackStackEntry?.destination?.route
-        ?: BottomNavigation.MAIN.route::class.qualifiedName.orEmpty()
+    val currentRoute =
+        navBackStackEntry?.destination?.route
+            ?: BottomNavigation.MAIN.route::class.qualifiedName.orEmpty()
 
-    val currentRouteTrimmed by remember(currentRoute) {
-        derivedStateOf { currentRoute.substringBefore("?") }
-    }
+    val currentRouteTrimmed by
+        remember(currentRoute) {
+            derivedStateOf { currentRoute.substringAfter("?") }
+        }
+
+    val shouldShowBottomBar =
+        BottomNavigation.entries.any {
+            it.route::class.qualifiedName == currentRouteTrimmed
+        }
     Scaffold(
         bottomBar = {
-            BottomAppBar {
-                BottomNavigation.entries
-                    .forEachIndexed { index, navigationItem ->
-
-                        val isSelected by remember(currentRoute) {
-                            derivedStateOf { currentRouteTrimmed == navigationItem.route::class.qualifiedName }
-                        }
+            if (shouldShowBottomBar) {
+                BottomAppBar {
+                    BottomNavigation.entries.forEachIndexed {
+                        index,
+                        navigationItem ->
+                        val temp = navigationItem.route::class.qualifiedName
+                        val isSelected by
+                            remember(currentRoute) {
+                                derivedStateOf {
+                                    currentRouteTrimmed ==
+                                        navigationItem.route::class
+                                            .qualifiedName
+                                }
+                            }
 
                         NavigationBarItem(
                             selected = isSelected,
@@ -56,41 +70,40 @@ fun AppNavGraph(
                                     painterResource(navigationItem.icon),
                                     contentDescription = navigationItem.label,
                                 )
-
                             },
                             onClick = {
                                 navController.navigate(navigationItem.route)
                             },
                         )
                     }
+                }
             }
-        },
+        }
     ) { innerPadding ->
         NavHost(
             navController = navController,
             startDestination = Destinations.Login,
-            modifier = modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-                .padding(horizontal = 16.dp),
+            modifier =
+                modifier
+                    .fillMaxSize()
+                    .padding(innerPadding)
+                    .padding(horizontal = 16.dp),
         ) {
-
             composable<Destinations.Login> {
-                LoginScreenRoot (
+                LoginScreenRoot(
                     onLoginClick = {
                         navController.navigate(Destinations.HomeGraph)
-                    },
+                    }
                 )
             }
             navigation<Destinations.HomeGraph>(
-                startDestination = Destinations.Main,
+                startDestination = Destinations.Main
             ) {
-
                 composable<Destinations.Main> {
                     MainScreen(
                         onCourseClick = { id ->
                             navController.navigate(Destinations.CourseInfo(id))
-                        },
+                        }
                     )
                 }
 
@@ -99,12 +112,11 @@ fun AppNavGraph(
                 }
 
                 composable<Destinations.Account> {
-                    //Greeting("Profile")
+                    // Greeting("Profile")
                 }
-
             }
             composable<Destinations.CourseInfo> { backStackEntry ->
-                //Greeting("Profile")
+                // Greeting("Profile")
             }
         }
     }

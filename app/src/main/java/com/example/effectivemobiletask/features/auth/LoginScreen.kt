@@ -20,12 +20,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.text.intl.Locale
-import androidx.compose.ui.text.intl.LocaleList
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -53,10 +50,18 @@ fun LoginScreenRoot(
 
         // Поля ввода.
         Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-            EmailTextField(
-                emailValue = state.email,
-                onEmailUpdate = viewModel::updateEmail,
+
+            LoginInputFields(
+                state.email,
+                state.password,
+                viewModel::updateEmail,
+                viewModel::updatePassword,
+                modifier = Modifier.fillMaxWidth()
             )
+//            EmailTextField(
+//                emailValue = state.email,
+//                onEmailUpdate = viewModel::updateEmail,
+//            )
             /*InputField(
                 value = state.email,
                 onValueChange = viewModel::updateEmail,
@@ -70,18 +75,18 @@ fun LoginScreenRoot(
                 title = "Заголовок почта",
                 modifier = Modifier.fillMaxWidth()
             )*/
-            InputField(
-                value = state.password,
-                onValueChange = viewModel::updatePassword,
-                label = "Password",
-                keyboardOptions =
-                    KeyboardOptions(
-                        keyboardType = KeyboardType.Password,
-                        imeAction = ImeAction.Done,
-                    ),
-                title = "Заголовок пароль",
-                modifier = Modifier.fillMaxWidth()
-            )
+//            InputField(
+//                value = state.password,
+//                onValueChange = viewModel::updatePassword,
+//                label = "Password",
+//                keyboardOptions =
+//                    KeyboardOptions(
+//                        keyboardType = KeyboardType.Password,
+//                        imeAction = ImeAction.Done,
+//                    ),
+//                title = "Заголовок пароль",
+//                modifier = Modifier.fillMaxWidth()
+//            )
 
         }
 
@@ -105,7 +110,7 @@ fun LoginScreenRoot(
                 "Нету аккаунта? Регистрация",
                 modifier = Modifier.clickable(onClick = {}),
             )
-            Text("Забыл пароль", modifier = Modifier.clickable(onClick = {}))
+            Text("Забыл пароль", modifier = Modifier.clickable(onClick = {}), color = MaterialTheme.colorScheme.secondary, fontWeight = FontWeight(500))
         }
 
         HorizontalDivider(
@@ -128,6 +133,37 @@ fun LoginScreenRoot(
 }
 
 @Composable
+fun LoginInputFields(
+    emailValue: String,
+    passwordValue: String,
+    onEmailValueChange: (String) -> Unit,
+    onPasswordValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
+){
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+    ) {
+        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Text(text = "Email", style = MaterialTheme.typography.titleMedium)
+            EmailTextField(
+                emailValue = emailValue,
+                onEmailUpdate = onEmailValueChange,
+            )
+        }
+        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Text(text = "Пароль", style = MaterialTheme.typography.titleMedium)
+            InputField(
+                value = passwordValue,
+                onValueChange = onPasswordValueChange,
+                label = "Password",
+                modifier
+            )
+        }
+    }
+}
+
+@Composable
 fun InputField(
     value: String,
     onValueChange: (String) -> Unit,
@@ -137,32 +173,25 @@ fun InputField(
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     isPassword: Boolean = false,
 ) {
-
-    Column(
+    OutlinedTextField(
+        value = value,
+        onValueChange = onValueChange,
+        //label = { Text(label) },
+        keyboardOptions = keyboardOptions,
+        singleLine = true,
+        visualTransformation =
+            if (isPassword) PasswordVisualTransformation()
+            else VisualTransformation.None,
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-    ) {
-        if(title != null){
-            Text(text = title, style = MaterialTheme.typography.titleMedium)
-        }
-        OutlinedTextField(
-            value = value,
-            onValueChange = onValueChange,
-            label = { Text(label) },
-            keyboardOptions = keyboardOptions,
-            singleLine = true,
-            visualTransformation =
-                if (isPassword) PasswordVisualTransformation()
-                else VisualTransformation.None,
-            modifier = modifier,
-            shape = RoundedCornerShape(30.dp),
-            colors =
-                OutlinedTextFieldDefaults.colors(
-                    unfocusedBorderColor = Color.Transparent,
-                    focusedBorderColor = Color.Transparent,
-                    unfocusedContainerColor =
-                        MaterialTheme.colorScheme.surfaceBright,
-                ),
-        )
-    }
+        shape = RoundedCornerShape(30.dp),
+        colors =
+            OutlinedTextFieldDefaults.colors(
+                unfocusedBorderColor = Color.Transparent,
+                focusedBorderColor = Color.Transparent,
+                unfocusedContainerColor =
+                    MaterialTheme.colorScheme.surfaceVariant,
+                focusedContainerColor =
+                    MaterialTheme.colorScheme.surfaceContainer,
+            ),
+    )
 }

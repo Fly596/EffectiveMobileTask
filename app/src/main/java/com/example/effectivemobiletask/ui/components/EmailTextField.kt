@@ -1,14 +1,20 @@
 package com.example.effectivemobiletask.ui.components
 
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.intl.LocaleList
+import androidx.compose.ui.unit.dp
 
 @Composable
 fun EmailTextField(emailValue: String, onEmailUpdate:(String) ->Unit){
@@ -19,7 +25,7 @@ fun EmailTextField(emailValue: String, onEmailUpdate:(String) ->Unit){
     OutlinedTextField(
         value = emailValue,
         onValueChange = {onEmailUpdate(it) },
-        label = { Text("Email") },
+        //label = { Text("Email") },
         // Передаем флаг ошибки в TextField, чтобы он подсветился красным
         isError = isError,
         supportingText = {
@@ -37,6 +43,18 @@ fun EmailTextField(emailValue: String, onEmailUpdate:(String) ->Unit){
                 hintLocales = LocaleList(Locale("en")),
                 imeAction = ImeAction.Next,
             ),
-        singleLine = true
+        singleLine = true,
+        shape = RoundedCornerShape(30.dp),
+        colors =
+            OutlinedTextFieldDefaults.colors(
+                unfocusedBorderColor = Color.Transparent,
+                focusedBorderColor = Color.Transparent,
+                unfocusedContainerColor =
+                    MaterialTheme.colorScheme.surfaceVariant,
+                focusedContainerColor =
+                    MaterialTheme.colorScheme.surfaceContainer,
+            ),
+        modifier = Modifier.fillMaxWidth()
     )
 }
+
