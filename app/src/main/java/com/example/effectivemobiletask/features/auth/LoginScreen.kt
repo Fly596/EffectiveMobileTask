@@ -1,5 +1,7 @@
 package com.example.effectivemobiletask.features.auth
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,10 +18,12 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -33,7 +37,20 @@ fun LoginScreenRoot(
     viewModel: LoginViewModel = hiltViewModel(),
     onLoginClick: () -> Unit,
 ) {
+    val context = LocalContext.current
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(key1 = true) {
+        viewModel.effect.collect { effect ->
+            when (effect) {
+                is UiEffect.OpenUrl -> {
+                    val intent =
+                        Intent(Intent.ACTION_VIEW, Uri.parse(effect.url))
+                    context.startActivity(intent)
+                }
+            }
+        }
+    }
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -43,51 +60,18 @@ fun LoginScreenRoot(
         Text(
             text = "Вход",
             style = MaterialTheme.typography.headlineLarge,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 140.dp),
+            modifier = Modifier.fillMaxWidth().padding(top = 140.dp),
         )
 
         // Поля ввода.
         Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-
             LoginInputFields(
                 state.email,
                 state.password,
                 viewModel::updateEmail,
                 viewModel::updatePassword,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             )
-//            EmailTextField(
-//                emailValue = state.email,
-//                onEmailUpdate = viewModel::updateEmail,
-//            )
-            /*InputField(
-                value = state.email,
-                onValueChange = viewModel::updateEmail,
-                label = "Email",
-                keyboardOptions =
-                    KeyboardOptions(
-                        keyboardType = KeyboardType.Email,
-                        hintLocales = LocaleList(Locale("en")),
-                        imeAction = ImeAction.Next,
-                    ),
-                title = "Заголовок почта",
-                modifier = Modifier.fillMaxWidth()
-            )*/
-//            InputField(
-//                value = state.password,
-//                onValueChange = viewModel::updatePassword,
-//                label = "Password",
-//                keyboardOptions =
-//                    KeyboardOptions(
-//                        keyboardType = KeyboardType.Password,
-//                        imeAction = ImeAction.Done,
-//                    ),
-//                title = "Заголовок пароль",
-//                modifier = Modifier.fillMaxWidth()
-//            )
-
         }
 
         Button(
@@ -110,7 +94,12 @@ fun LoginScreenRoot(
                 "Нету аккаунта? Регистрация",
                 modifier = Modifier.clickable(onClick = {}),
             )
-            Text("Забыл пароль", modifier = Modifier.clickable(onClick = {}), color = MaterialTheme.colorScheme.secondary, fontWeight = FontWeight(500))
+            Text(
+                "Забыл пароль",
+                modifier = Modifier.clickable(onClick = {}),
+                color = MaterialTheme.colorScheme.secondary,
+                fontWeight = FontWeight(500),
+            )
         }
 
         HorizontalDivider(
@@ -122,10 +111,16 @@ fun LoginScreenRoot(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            Button(onClick = {}, modifier = Modifier.weight(0.5f)) {
+            Button(
+                onClick = { viewModel.onOpenVkClicked() },
+                modifier = Modifier.weight(0.5f),
+            ) {
                 Text("VK")
             }
-            Button(onClick = {}, modifier = Modifier.weight(0.5f)) {
+            Button(
+                onClick = { viewModel.onOpenOkClicked() },
+                modifier = Modifier.weight(0.5f),
+            ) {
                 Text("OK")
             }
         }
@@ -139,7 +134,7 @@ fun LoginInputFields(
     onEmailValueChange: (String) -> Unit,
     onPasswordValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
-){
+) {
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -157,7 +152,7 @@ fun LoginInputFields(
                 value = passwordValue,
                 onValueChange = onPasswordValueChange,
                 label = "Password",
-                modifier
+                modifier,
             )
         }
     }
@@ -176,7 +171,7 @@ fun InputField(
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
-        //label = { Text(label) },
+        // label = { Text(label) },
         keyboardOptions = keyboardOptions,
         singleLine = true,
         visualTransformation =

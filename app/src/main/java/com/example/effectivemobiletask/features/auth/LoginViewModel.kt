@@ -12,8 +12,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 // Определяем возможное событие.
-sealed class UiEvent {
-    data class OpenUrl(val url: String) : UiEvent()
+sealed class UiEffect {
+    data class OpenUrl(val url: String) : UiEffect()
 }
 
 data class LoginUiState(
@@ -28,20 +28,21 @@ class LoginViewModel @Inject constructor() : ViewModel() {
     private val _uiState = MutableStateFlow(LoginUiState())
     val uiState = _uiState.asStateFlow()
 
-    private val _uiEvent = Channel<UiEvent>()
-    val uiEvent = _uiEvent.receiveAsFlow()
+    private val _effectChanel = Channel<UiEffect>()
+    val effect = _effectChanel.receiveAsFlow()
 
     fun onOpenOkClicked() {
-        sendEvent(UiEvent.OpenUrl("https://m.ok.ru/"))
+        viewModelScope.launch {
+            _effectChanel.send(UiEffect.OpenUrl("https://m.ok.ru/"))
+        }
     }
 
     fun onOpenVkClicked() {
-        sendEvent(UiEvent.OpenUrl("https://vk.com/"))
+        viewModelScope.launch {
+            _effectChanel.send(UiEffect.OpenUrl("https://vk.com/"))
+        }
     }
 
-    private fun sendEvent(event: UiEvent) {
-        viewModelScope.launch { _uiEvent.send(event) }
-    }
 
     fun updateEmail(input: String) {
         _uiState.update {
