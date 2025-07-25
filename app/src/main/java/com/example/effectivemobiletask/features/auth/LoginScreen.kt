@@ -29,6 +29,7 @@ import androidx.compose.ui.text.intl.LocaleList
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.effectivemobiletask.ui.components.EmailTextField
 
 @Composable
 fun LoginScreenRoot(
@@ -52,7 +53,11 @@ fun LoginScreenRoot(
 
         // Поля ввода.
         Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-            InputField(
+            EmailTextField(
+                emailValue = state.email,
+                onEmailUpdate = viewModel::updateEmail,
+            )
+            /*InputField(
                 value = state.email,
                 onValueChange = viewModel::updateEmail,
                 label = "Email",
@@ -64,7 +69,7 @@ fun LoginScreenRoot(
                     ),
                 title = "Заголовок почта",
                 modifier = Modifier.fillMaxWidth()
-            )
+            )*/
             InputField(
                 value = state.password,
                 onValueChange = viewModel::updatePassword,
@@ -127,8 +132,8 @@ fun InputField(
     value: String,
     onValueChange: (String) -> Unit,
     label: String,
-    title: String? = null,
     modifier: Modifier = Modifier,
+    title: String? = null,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     isPassword: Boolean = false,
 ) {
