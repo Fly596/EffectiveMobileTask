@@ -2,6 +2,7 @@ package com.example.effectivemobiletask.data
 
 import java.time.LocalDate
 
+// Класс для UI.
 data class Course(
     val id: Int,
     val title: String,

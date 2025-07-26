@@ -70,6 +70,6 @@ constructor(private val repository: CourseRepository) : ViewModel() {
     }
 
     fun updateCourseBookmark(id: Int) {
-        viewModelScope.launch { repository.setBookmark(id) }
+        viewModelScope.launch { repository.setLike(id) }
     }
 }

@@ -24,7 +24,8 @@ interface CourseDao {
     @Query("DELETE FROM courses WHERE id = :id")
     suspend fun deleteCourseById(id: Int)
 
-    @Query("DELETE FROM courses") suspend fun deleteAllCourses()
+    @Query("DELETE FROM courses")
+    suspend fun deleteAllCourses()
 
     @Query("UPDATE courses SET hasLike = NOT hasLike WHERE id = :id")
     suspend fun updateFavouriteStatus(id: Int)

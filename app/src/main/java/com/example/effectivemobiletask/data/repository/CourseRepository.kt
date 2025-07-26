@@ -7,7 +7,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
-import okhttp3.OkHttpClient
 import javax.inject.Inject
 
 interface CourseRepository {
@@ -17,7 +16,7 @@ interface CourseRepository {
 
     suspend fun refreshCourses()
 
-    suspend fun setBookmark(id: Int)
+    suspend fun setLike(id: Int)
 
     fun getFavoritesCourses():Flow<List<Course>>
 }
@@ -25,7 +24,6 @@ interface CourseRepository {
 class CourseRepositoryImpl
 @Inject
 constructor(
-    private val okHttpClient: OkHttpClient,
     private val localDataSource: CourseDao,
     private val networkRepository: NetworkRepository,
 ) : CourseRepository {
@@ -54,7 +52,7 @@ constructor(
         return localDataSource.getCourseById(id)?.toDomain()
     }
 
-    override suspend fun setBookmark(id: Int) {
+    override suspend fun setLike(id: Int) {
         localDataSource.updateFavouriteStatus(id)
     }
 

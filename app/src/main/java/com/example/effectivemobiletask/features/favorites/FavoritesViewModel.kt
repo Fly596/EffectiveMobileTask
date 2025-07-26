@@ -42,6 +42,6 @@ class FavoritesViewModel @Inject constructor(private val repository: CourseRepos
     }
 
     fun updateCourseBookmark(id: Int) {
-        viewModelScope.launch { repository.setBookmark(id) }
+        viewModelScope.launch { repository.setLike(id) }
     }
 }
