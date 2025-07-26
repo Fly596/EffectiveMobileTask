@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
@@ -23,7 +22,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.colorspace.ColorSpaces
-import androidx.compose.ui.input.key.Key.Companion.H
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -31,7 +29,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.effectivemobiletask.R
+import com.example.effectivemobiletask.data.Course
 import com.example.effectivemobiletask.ui.theme.EffectiveMobileTaskTheme
+import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 @Composable
@@ -41,7 +41,7 @@ fun CourseDetailsScreen(
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
-    Column(modifier = Modifier.fillMaxWidth()) {
+    Column(modifier = Modifier.fillMaxSize()) {
         TopSection(
             rate = state.course?.rate.toString(),
             publishDate =
@@ -49,6 +49,9 @@ fun CourseDetailsScreen(
                     ?.publishDate
                     ?.format(DateTimeFormatter.ofPattern("MMMM d, yyyy")),
         )
+
+        Text(text = state.course?.title.toString(), style = MaterialTheme.typography.titleLarge, modifier = Modifier.fillMaxWidth().padding(16.dp))
+
     }
 }
 
@@ -219,6 +222,17 @@ fun TopSection(
 @Preview
 @Composable
 fun MyPreview() {
+    val tempCourse: Course =
+        Course(
+            1,
+            "Java-разработчик с нуля",
+            "Освойте backend-разработку и программирование на Java, фреймворки Spring и Maven, работу с базами данных и API. Создайте свой собственный проект, собрав портфолио и став востребованным специалистом для любой IT компании.",
+            123.5,
+            56.0f,
+            LocalDate.now(),
+            false,
+            LocalDate.now(),
+        )
     EffectiveMobileTaskTheme {
         Box(modifier = Modifier.fillMaxSize()) { TopSection() }
     }

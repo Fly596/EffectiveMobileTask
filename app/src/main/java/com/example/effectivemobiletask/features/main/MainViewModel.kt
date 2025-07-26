@@ -45,6 +45,7 @@ constructor(private val repository: CourseRepository) : ViewModel() {
                     repository.refreshCourses()
 
                 } else {
+
                     _uiState.update { it.copy(courses = courses) }
                 }
 

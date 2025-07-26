@@ -81,14 +81,15 @@ fun LoginScreenRoot(
         }
 
         Button(
-            onClick = {
-                // Если ввод верный.
-                onLoginClick.invoke()
-            },
+            onClick = { onLoginClick.invoke() },
             modifier = Modifier.fillMaxWidth(),
+            enabled = state.isLoginButtonEnabled,
+            colors =
+                ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.primary
+                ),
         ) {
-            Text("Вход",
-                modifier = Modifier,)
+            Text("Вход", modifier = Modifier)
         }
 
         // Регистрация/ восстановление пароля.
@@ -112,6 +113,7 @@ fun LoginScreenRoot(
         HorizontalDivider(
             thickness = 1.dp,
             modifier = Modifier.padding(vertical = 8.dp),
+            color = Color(0xFF4D555E),
         )
 
         Row(
@@ -123,8 +125,8 @@ fun LoginScreenRoot(
                 modifier = Modifier.weight(0.5f),
                 colors =
                     ButtonDefaults.buttonColors(
-                        containerColor = Color.Blue,
-                        contentColor = Color.Cyan,
+                        containerColor = Color(0xFF2683ED),
+                        contentColor = Color.White,
                     ),
             ) {
                 Image(
@@ -141,8 +143,8 @@ fun LoginScreenRoot(
                 modifier = Modifier.weight(0.5f),
                 colors =
                     ButtonDefaults.buttonColors(
-                        containerColor = Color.Red,
-                        contentColor = Color.Yellow,
+                        containerColor = Color(0xFFF98509),
+                        contentColor = Color.White,
                     ),
             ) {
                 Image(

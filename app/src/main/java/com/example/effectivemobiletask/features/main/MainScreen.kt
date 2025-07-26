@@ -135,7 +135,7 @@ fun SearchAndFilter(modifier: Modifier = Modifier) {
             },
             label = { Text("Search courses...") },
             singleLine = true,
-            modifier = Modifier,
+            modifier = Modifier.weight(1f),
             shape = RoundedCornerShape(30.dp),
 
         )
@@ -144,7 +144,7 @@ fun SearchAndFilter(modifier: Modifier = Modifier) {
             Icon(
                 painter = painterResource(R.drawable.outline_filter_alt_24),
                 contentDescription = "filter",
-                modifier = Modifier.size(32.dp),
+                modifier = Modifier.size(32.dp).weight(1f),
             )
         }
     }

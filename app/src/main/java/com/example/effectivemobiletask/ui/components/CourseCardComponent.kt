@@ -14,6 +14,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -56,30 +57,32 @@ fun CourseCard(
                 isBookmarked = course.hasLike,
                 // modifier = Modifier.weight(0.5f),
             )
-            CourseCardBottomSection(
-                title = course.title,
-                text = course.text,
-                price = course.price.toString(),
-                // modifier = Modifier.weight(0.5f),
-            )
-            Row(
-                modifier =
-                    Modifier.padding(horizontal = 16.dp)
-                        .clickable(onClick = { { onCardClick(course.id) } }),
-                verticalAlignment = Alignment.Top,
-            ) {
-                Text(
-                    "Подробнее",
-                    style = MaterialTheme.typography.labelLarge,
-                    color = MaterialTheme.colorScheme.primary,
+            Box(){
+                CourseCardBottomSection(
+                    title = course.title,
+                    text = course.text,
+                    price = course.price.toString(),
+                    // modifier = Modifier.weight(0.5f),
                 )
-                Icon(
-                    painter =
-                        painterResource(R.drawable.outline_arrow_forward_24),
-                    tint = MaterialTheme.colorScheme.primary,
-                    contentDescription = null,
-                )
+                Row(
+                    modifier =
+                        Modifier.padding(horizontal = 16.dp)
+                            .clickable(onClick = { { onCardClick(course.id) } }).align(Alignment.BottomEnd),
+                ) {
+                    Text(
+                        "Подробнее",
+                        style = MaterialTheme.typography.labelLarge,
+                        color = MaterialTheme.colorScheme.primary,
+                    )
+                    Icon(
+                        painter =
+                            painterResource(R.drawable.outline_arrow_forward_24),
+                        tint = MaterialTheme.colorScheme.primary,
+                        contentDescription = null,
+                    )
+                }
             }
+
         }
     }
 }
@@ -117,12 +120,11 @@ fun CourseCardTopSection(
                     Modifier.background(
                             color =
                                 Color(
-                                    red = 1f,
-                                    green = 1f,
-                                    blue = 1f,
-                                    alpha = 0.8f,
-                                    colorSpace = ColorSpaces.Srgb,
-                                ),
+                                    red = 0f,
+                                    green = 0f,
+                                    blue = 0f,
+                                    alpha = 0.5f,
+                                    colorSpace = ColorSpaces.Srgb,),
                             shape = RoundedCornerShape(12.dp),
                         )
                         .padding(horizontal = 6.dp, vertical = 4.dp),
@@ -142,12 +144,11 @@ fun CourseCardTopSection(
                     Modifier.background(
                             color =
                                 Color(
-                                    red = 1f,
-                                    green = 1f,
-                                    blue = 1f,
-                                    alpha = 0.8f,
-                                    colorSpace = ColorSpaces.Srgb,
-                                ),
+                                    red = 0f,
+                                    green = 0f,
+                                    blue = 0f,
+                                    alpha = 0.5f,
+                                    colorSpace = ColorSpaces.Srgb,),
                             shape = RoundedCornerShape(12.dp),
                         )
                         .padding(horizontal = 6.dp, vertical = 4.dp),
@@ -163,7 +164,14 @@ fun CourseCardTopSection(
             modifier = Modifier.matchParentSize(),
             horizontalArrangement = Arrangement.End,
         ) {
-            IconButton(onClick = onAddToFavorite, modifier = Modifier) {
+            IconButton(onClick = onAddToFavorite, modifier = Modifier, colors = IconButtonDefaults.iconButtonColors(
+                containerColor = Color(
+                    red = 0f,
+                    green = 0f,
+                    blue = 0f,
+                    alpha = 0.5f,
+                    colorSpace = ColorSpaces.Srgb,)
+            )) {
                 Icon(
                     painter =
                         if (isBookmarked)

@@ -3,13 +3,13 @@ package com.example.effectivemobiletask.features.auth
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 // Определяем возможное событие.
 sealed class UiEffect {
@@ -17,8 +17,8 @@ sealed class UiEffect {
 }
 
 data class LoginUiState(
-    val email: String = "",
-    val password: String = "",
+    val email: String = "example@gmail.com",
+    val password: String = "0000",
     val isLoginButtonEnabled: Boolean = false,
 )
 
