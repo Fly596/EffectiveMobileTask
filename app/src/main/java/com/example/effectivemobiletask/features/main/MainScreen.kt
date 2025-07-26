@@ -144,7 +144,7 @@ fun SearchAndFilter(modifier: Modifier = Modifier) {
             Icon(
                 painter = painterResource(R.drawable.outline_filter_alt_24),
                 contentDescription = "filter",
-                modifier = Modifier.size(32.dp).weight(1f),
+                modifier = Modifier.size(32.dp),
             )
         }
     }
