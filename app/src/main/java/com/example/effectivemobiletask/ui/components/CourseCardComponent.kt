@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import com.example.effectivemobiletask.R
 import com.example.effectivemobiletask.data.Course
 
+// Карточка курса.
 @Composable
 fun CourseCard(
     course: Course,
@@ -87,6 +88,7 @@ fun CourseCard(
     }
 }
 
+// Верхняя часть карточки курса.
 @Composable
 fun CourseCardTopSection(
     rate: String = "6.6",
@@ -184,6 +186,7 @@ fun CourseCardTopSection(
     }
 }
 
+// Нижняя часть карточки курса.
 @Composable
 fun CourseCardBottomSection(
     title: String = "",

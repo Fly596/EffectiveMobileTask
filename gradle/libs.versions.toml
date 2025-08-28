@@ -1,6 +1,6 @@
 [versions]
 # Android Gradle Plugin & Core.
-agp = "8.11.1"
+agp = "8.12.2"
 kotlin = "2.1.0"
 ksp = "2.1.0-1.0.29"
 coreKtx = "1.16.0"

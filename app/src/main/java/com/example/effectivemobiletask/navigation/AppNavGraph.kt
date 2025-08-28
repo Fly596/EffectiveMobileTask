@@ -27,6 +27,7 @@ import com.example.effectivemobiletask.features.coursedetails.CourseDetailsScree
 import com.example.effectivemobiletask.features.favorites.FavoritesScreen
 import com.example.effectivemobiletask.features.main.MainScreen
 
+// NavGraph, который управляет навигацией в приложении.
 @Composable
 @SuppressLint("RestrictedApi")
 fun AppNavGraph(
@@ -35,19 +36,23 @@ fun AppNavGraph(
 ) {
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
+    // Текущий маршрут.
     val currentRoute =
         navBackStackEntry?.destination?.route
             ?: BottomNavigation.MAIN.route::class.qualifiedName.orEmpty()
 
+    // Текущий маршрут без параметра.
     val currentRouteTrimmed by
         remember(currentRoute) {
             derivedStateOf { currentRoute.substringAfter("?") }
         }
 
+    // переменная, которая показывает, нужно ли показывать нижнюю навигацию.
     val shouldShowBottomBar =
         BottomNavigation.entries.any {
             it.route::class.qualifiedName == currentRouteTrimmed
         }
+
     Scaffold(
         bottomBar = {
             if (shouldShowBottomBar) {
@@ -55,7 +60,6 @@ fun AppNavGraph(
                     BottomNavigation.entries.forEachIndexed {
                         index,
                         navigationItem ->
-                        val temp = navigationItem.route::class.qualifiedName
                         val isSelected by
                             remember(currentRoute) {
                                 derivedStateOf {
@@ -83,6 +87,7 @@ fun AppNavGraph(
             }
         }
     ) { innerPadding ->
+        // Основной контейнер навигации, который управляет экранами.
         NavHost(
             navController = navController,
             startDestination = Destinations.Login, //!FOR TESTING, change to login.
@@ -92,6 +97,7 @@ fun AppNavGraph(
                     .padding(innerPadding)
                     .padding(horizontal = 16.dp),
         ) {
+            // Экран экрана входа.
             composable<Destinations.Login> {
                 LoginScreenRoot(
                     onLoginClick = {
@@ -99,6 +105,7 @@ fun AppNavGraph(
                     }
                 )
             }
+            // Nested граф навигации для основных экранов приложения.
             navigation<Destinations.HomeGraph>(
                 startDestination = Destinations.Main
             ) {
@@ -122,6 +129,9 @@ fun AppNavGraph(
                     // Greeting("Profile")
                 }
             }
+
+            // Экран детальной информации о курсе.
+            // TODO: доделать.
             composable<Destinations.CourseInfo> { backStackEntry ->
                 val courseDetails: Destinations.CourseInfo = backStackEntry.toRoute()
 

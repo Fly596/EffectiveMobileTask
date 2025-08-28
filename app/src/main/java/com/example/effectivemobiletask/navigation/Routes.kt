@@ -4,6 +4,7 @@ import com.example.effectivemobiletask.R
 import kotlinx.serialization.Serializable
 
 
+// Маршруты навигации.
 @Serializable
 sealed class Destinations {
 
@@ -26,7 +27,7 @@ sealed class Destinations {
     data class CourseInfo(val courseId: Int): Destinations()
 }
 
-// Компоненты навигации.
+// Компоненты бара навигации.
 enum class BottomNavigation(val label: String, val icon: Int, val route: Destinations) {
     MAIN("Main", R.drawable.house, Destinations.Main),
     FAVORITES("Favourite", R.drawable.bookmark, Destinations.Favorite),

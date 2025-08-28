@@ -44,12 +44,13 @@ fun LoginScreenRoot(
     onLoginClick: () -> Unit,
 ) {
     val context = LocalContext.current
-    val state by viewModel.uiState.collectAsStateWithLifecycle()
+    val state by
+        viewModel.uiState.collectAsStateWithLifecycle() // Подписка на стейт.
 
-    LaunchedEffect(key1 = true) {
+    LaunchedEffect(key1 = true) { // Сайд-эффекты (одноразовый запуск).
         viewModel.effect.collect { effect ->
             when (effect) {
-                is UiEffect.OpenUrl -> {
+                is UiEffect.OpenUrl -> { // Открытие ссылки из эффекта VM.
                     val intent =
                         Intent(Intent.ACTION_VIEW, Uri.parse(effect.url))
                     context.startActivity(intent)
@@ -69,7 +70,7 @@ fun LoginScreenRoot(
             modifier = Modifier.fillMaxWidth().padding(top = 140.dp),
         )
 
-        // Поля ввода.
+        // Блок с email/паролем.
         Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
             LoginInputFields(
                 state.email,
@@ -80,10 +81,12 @@ fun LoginScreenRoot(
             )
         }
 
+        // Кнопка логина.
         Button(
             onClick = { onLoginClick.invoke() },
             modifier = Modifier.fillMaxWidth(),
-            enabled = state.isLoginButtonEnabled,
+            enabled =
+                state.isLoginButtonEnabled, // Активна только если поля валидные
             colors =
                 ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.primary
@@ -92,7 +95,7 @@ fun LoginScreenRoot(
             Text("Вход", modifier = Modifier)
         }
 
-        // Регистрация/ восстановление пароля.
+        // Ссылки на регистрацию/восстановление.
         Column(
             modifier = Modifier,
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -116,6 +119,7 @@ fun LoginScreenRoot(
             color = Color(0xFF4D555E),
         )
 
+        // Соцсети (VK, OK).
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
@@ -172,6 +176,7 @@ fun LoginInputFields(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
+        // Поле ввода email.
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Text(text = "Email", style = MaterialTheme.typography.titleMedium)
             EmailTextField(
@@ -179,6 +184,7 @@ fun LoginInputFields(
                 onEmailUpdate = onEmailValueChange,
             )
         }
+        // Поле ввода пароля.
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Text(text = "Пароль", style = MaterialTheme.typography.titleMedium)
             InputField(
@@ -204,11 +210,11 @@ fun InputField(
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
-        // label = { Text(label) },
         keyboardOptions = keyboardOptions,
         singleLine = true,
         visualTransformation =
-            if (isPassword) PasswordVisualTransformation()
+            if (isPassword)
+                PasswordVisualTransformation() // Скрываем символы для пароля.
             else VisualTransformation.None,
         modifier = modifier,
         shape = RoundedCornerShape(30.dp),

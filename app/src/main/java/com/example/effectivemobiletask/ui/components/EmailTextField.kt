@@ -16,6 +16,7 @@ import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.intl.LocaleList
 import androidx.compose.ui.unit.dp
 
+// Поле для ввода email.
 @Composable
 fun EmailTextField(emailValue: String, onEmailUpdate:(String) ->Unit){
     val emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+".toRegex()
