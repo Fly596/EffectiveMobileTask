@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -37,18 +36,23 @@ import java.time.LocalDate
 
 @Composable
 fun MainScreen(
+    // Колбэк для навигации на экран деталей курса.
     onCourseClick: (Int) -> Unit,
+    // Получение ViewModel с помощью Hilt.
     viewModel: MainViewModel = hiltViewModel(),
 ) {
+    // Подписка на состояние UI из ViewModel.
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
+    // Основной вертикальный контейнер экрана.
     Column(
         modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        // Поиск и фильтрация.
+        // Компонент для поиска и фильтрации (реализация не показана).
         SearchAndFilter(modifier = Modifier.fillMaxWidth())
 
+        // Ряд для отображения и управления сортировкой.
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.End,
@@ -60,20 +64,27 @@ fun MainScreen(
                 color = MaterialTheme.colorScheme.primary,
             )
             Spacer(modifier = Modifier.width(4.dp))
+            // Иконка для изменения направления сортировки.
             Icon(
                 painter = painterResource(R.drawable.outline_swap_vert_24),
                 contentDescription = "sort",
                 tint = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.clickable(onClick = {
-                    viewModel.updateSortingOption(!state.isAsc)
-                    viewModel.sortCourses()
-                    // ! фильтрация
-                })
+                modifier =
+                    Modifier.clickable(
+                        onClick = {
+                            // При клике обновляем направление сортировки и
+                            // запускаем саму сортировку.
+                            viewModel.updateSortingOption(!state.isAsc)
+                            viewModel.sortCourses()
+                        }
+                    ),
             )
         }
 
+        // Ленивый список для отображения курсов.
         LazyColumn(modifier = Modifier.fillMaxWidth()) {
             items(items = state.courses) { item ->
+                // Карточка для отображения одного курса.
                 CourseCard(
                     item,
                     onAddToFavorite = viewModel::updateCourseBookmark,
@@ -82,6 +93,7 @@ fun MainScreen(
             }
         }
 
+        // Отображение экрана загрузки, если данные загружаются.
         if (state.isLoading) {
             LoadingScreen(modifier = Modifier.fillMaxSize())
         }
@@ -109,6 +121,7 @@ fun CardPreview() {
     }
 }
 
+// Экран загрузки.
 @Composable
 fun LoadingScreen(modifier: Modifier = Modifier) {
     Box(contentAlignment = Alignment.Center, modifier = modifier) {
@@ -116,6 +129,7 @@ fun LoadingScreen(modifier: Modifier = Modifier) {
     }
 }
 
+// Компонент для поиска и фильтрации.
 @Composable
 fun SearchAndFilter(modifier: Modifier = Modifier) {
     Row(
@@ -123,6 +137,7 @@ fun SearchAndFilter(modifier: Modifier = Modifier) {
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
+        // Текстовое поле для ввода текста поиска.
         OutlinedTextField(
             value = "",
             onValueChange = {},
@@ -137,36 +152,15 @@ fun SearchAndFilter(modifier: Modifier = Modifier) {
             singleLine = true,
             modifier = Modifier.weight(1f),
             shape = RoundedCornerShape(30.dp),
-
         )
 
+        // Кнопка для фильтрации.
         IconButton(onClick = {}, modifier = Modifier, enabled = false) {
             Icon(
                 painter = painterResource(R.drawable.outline_filter_alt_24),
                 contentDescription = "filter",
                 modifier = Modifier.size(32.dp),
             )
-        }
-    }
-}
-
-@Composable
-fun InputField(
-    value: String,
-    onValueChange: (String) -> Unit,
-    label: String,
-    title: String? = null,
-    modifier: Modifier = Modifier,
-    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
-    isPassword: Boolean = false,
-) {
-
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-    ) {
-        if (title != null) {
-            Text(text = title, style = MaterialTheme.typography.titleMedium)
         }
     }
 }

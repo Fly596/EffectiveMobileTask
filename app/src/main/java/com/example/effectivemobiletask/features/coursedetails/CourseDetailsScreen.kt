@@ -37,64 +37,77 @@ import java.time.format.DateTimeFormatter
 @Composable
 fun CourseDetailsScreen(
     onBackClick: () -> Unit,
-    viewModel: CourseDetailsViewModel = hiltViewModel(),
+    viewModel: CourseDetailsViewModel =
+        hiltViewModel(), // Получаем VM через Hilt.
 ) {
-    val state by viewModel.uiState.collectAsStateWithLifecycle()
+    val state by
+        viewModel.uiState
+            .collectAsStateWithLifecycle() // Подписка на стейт с учётом
+    // жизненного цикла.
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopSection(
-            rate = state.course?.rate.toString(),
+            rate = state.course?.rate.toString(), // Отображаем рейтинг курса.
             publishDate =
                 state.course
                     ?.publishDate
-                    ?.format(DateTimeFormatter.ofPattern("MMMM d, yyyy")),
+                    ?.format(
+                        DateTimeFormatter.ofPattern("MMMM d, yyyy")
+                    ), // Форматируем дату публикации.
         )
 
-        Text(text = state.course?.title.toString(), style = MaterialTheme.typography.titleLarge, modifier = Modifier.fillMaxWidth().padding(16.dp))
-
+        Text(
+            text = state.course?.title.toString(), // Заголовок курса.
+            style = MaterialTheme.typography.titleLarge,
+            modifier = Modifier.fillMaxWidth().padding(16.dp),
+        )
     }
 }
 
 @Composable
 fun TopSection(
-    rate: String = "9.9",
-    publishDate: String? = null,
-    image: Int = R.drawable.course_picture_default,
+    rate: String = "9.9", // Значение рейтинга по умолчанию.
+    publishDate: String? = null, // Дата публикации, может быть null.
+    image: Int =
+        R.drawable.course_picture_default, // Картинка курса по умолчанию.
 ) {
     Box(modifier = Modifier.fillMaxWidth().height(300.dp)) {
         Image(
-            painter = painterResource(R.drawable.course_picture_default),
+            painter =
+                painterResource(
+                    R.drawable.course_picture_default
+                ), // Фон-картинка курса.
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxWidth(),
         )
-        Row(
-            modifier = Modifier.align(Alignment.TopCenter).fillMaxWidth()
-        ){
-            Box(modifier = Modifier.padding(16.dp).fillMaxWidth()){
+        Row(modifier = Modifier.align(Alignment.TopCenter).fillMaxWidth()) {
+            Box(modifier = Modifier.padding(16.dp).fillMaxWidth()) {
                 IconButton(
-                    onClick = {},
+                    onClick = {}, // Кнопка "назад".
                     colors =
                         IconButtonDefaults.iconButtonColors(
                             containerColor =
                                 MaterialTheme.colorScheme.surfaceContainerHigh
                         ),
-                    modifier = Modifier.align(Alignment.TopStart)
+                    modifier = Modifier.align(Alignment.TopStart),
                 ) {
                     Icon(
-                        painterResource(R.drawable.outline_arrow_back_ios_new_24),
+                        painterResource(
+                            R.drawable.outline_arrow_back_ios_new_24
+                        ),
                         contentDescription = null,
                     )
                 }
 
                 IconButton(
-                    onClick = {},
+                    onClick = {}, // Кнопка "закладка".
                     colors =
                         IconButtonDefaults.iconButtonColors(
                             containerColor =
                                 MaterialTheme.colorScheme.surfaceContainerHigh
                         ),
-                    modifier = Modifier.align(Alignment.TopEnd)
+                    modifier = Modifier.align(Alignment.TopEnd),
                 ) {
                     Icon(
                         painterResource(R.drawable.bookmark),
@@ -102,28 +115,33 @@ fun TopSection(
                     )
                 }
             }
-
         }
 
-        Row(modifier = Modifier.align(Alignment.BottomStart), horizontalArrangement = Arrangement.spacedBy(8.dp)){
+        Row(
+            modifier =
+                Modifier.align(
+                    Alignment.BottomStart
+                ), // Нижняя панель с рейтингом и датой.
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
             Row(
                 modifier =
                     Modifier.background(
-                        color =
-                            Color(
-                                red = 1f,
-                                green = 1f,
-                                blue = 1f,
-                                alpha = 0.8f,
-                                colorSpace = ColorSpaces.Srgb,
-                            ),
-                        shape = RoundedCornerShape(12.dp),
-                    )
+                            color =
+                                Color(
+                                    red = 1f,
+                                    green = 1f,
+                                    blue = 1f,
+                                    alpha = 0.8f,
+                                    colorSpace = ColorSpaces.Srgb,
+                                ),
+                            shape = RoundedCornerShape(12.dp),
+                        )
                         .padding(horizontal = 6.dp, vertical = 4.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(4.dp),
             ) {
-                // Rate.
+                // Блок с рейтингом.
                 Icon(
                     painterResource(R.drawable.star_fill),
                     contentDescription = null,
@@ -134,88 +152,25 @@ fun TopSection(
             Row(
                 modifier =
                     Modifier.background(
-                        color =
-                            Color(
-                                red = 1f,
-                                green = 1f,
-                                blue = 1f,
-                                alpha = 0.8f,
-                                colorSpace = ColorSpaces.Srgb,
-                            ),
-                        shape = RoundedCornerShape(12.dp),
-                    )
+                            color =
+                                Color(
+                                    red = 1f,
+                                    green = 1f,
+                                    blue = 1f,
+                                    alpha = 0.8f,
+                                    colorSpace = ColorSpaces.Srgb,
+                                ),
+                            shape = RoundedCornerShape(12.dp),
+                        )
                         .padding(horizontal = 6.dp, vertical = 4.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    text = publishDate.toString(),
+                    text = publishDate.toString(), // Блок с датой публикации.
                     style = MaterialTheme.typography.bodySmall,
                 )
             }
-
         }
-        /*
-        Box(modifier = Modifier.fillMaxWidth().padding(16.dp)){
-
-            Box(modifier = Modifier.fillMaxWidth()){
-                Row(
-                    modifier = Modifier.align(Alignment.BottomStart), horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    Row(
-                        modifier =
-                            Modifier.background(
-                                color =
-                                    Color(
-                                        red = 1f,
-                                        green = 1f,
-                                        blue = 1f,
-                                        alpha = 0.8f,
-                                        colorSpace = ColorSpaces.Srgb,
-                                    ),
-                                shape = RoundedCornerShape(12.dp),
-                            )
-                                .padding(horizontal = 6.dp, vertical = 4.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(4.dp),
-                    ) {
-                        // Rate.
-                        Icon(
-                            painterResource(R.drawable.star_fill),
-                            contentDescription = null,
-                        )
-
-                        Text(text = rate, style = MaterialTheme.typography.bodySmall)
-                    }
-                    Row(
-                        modifier =
-                            Modifier.background(
-                                color =
-                                    Color(
-                                        red = 1f,
-                                        green = 1f,
-                                        blue = 1f,
-                                        alpha = 0.8f,
-                                        colorSpace = ColorSpaces.Srgb,
-                                    ),
-                                shape = RoundedCornerShape(12.dp),
-                            )
-                                .padding(horizontal = 6.dp, vertical = 4.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        Text(
-                            text = publishDate.toString(),
-                            style = MaterialTheme.typography.bodySmall,
-                        )
-                    }
-
-                }
-            }
-
-        }*/
-
-
-
-
     }
 }
 

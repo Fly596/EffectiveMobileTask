@@ -14,64 +14,57 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+// Класс данных, представляющий состояние экрана.
 data class DetailsUiState(
     val course: Course? = null,
     val isLoading: Boolean = false,
 )
 
+// ViewModel экрана с деталями курса.
 @HiltViewModel
 class CourseDetailsViewModel
 @Inject
 constructor(
+    // Внедрение репозитория для получения данных.
     private val repository: CourseRepository,
+    // Получение аргументов навигации.
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
+    // Извлечение ID курса из аргументов навигации.
     private val courseId: Int? =
         savedStateHandle.toRoute<Destinations.CourseInfo>().courseId
 
+    // Приватное, изменяемое состояние.
     private val _uiState = MutableStateFlow(DetailsUiState())
+    // Публичное, неизменяемое состояние для UI.
     val uiState = _uiState.asStateFlow()
 
+    // Блок инициализации, вызывается при создании ViewModel.
     init {
         if (courseId != null) {
             getCourse(courseId)
         }
-        /*        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                try {
-                    val args =
-                        savedStateHandle.toRoute<Destinations.CourseInfo>()
-                    val courseID = args.courseId
-                    getCourse(courseID)
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-            }
-        }*/
     }
 
+    // Функция для загрузки данных о курсе.
     private fun getCourse(id: Int) {
+        // Обновляем состояние, показывая индикатор загрузки.
         _uiState.update { it.copy(isLoading = true) }
 
+        // Запускаем корутину для асинхронной загрузки данных.
         viewModelScope.launch {
             repository.getCourseById(id).let { course ->
                 if (course != null) {
+                    // Если курс найден, обновляем состояние с данными курса.
                     _uiState.update {
                         it.copy(course = course, isLoading = false)
                     }
                 } else {
+                    // Если курс не найден, просто убираем индикатор загрузки.
                     _uiState.update { it.copy(isLoading = false) }
                 }
             }
-            /*    try {
-                val character = repository.getCourseById(id)
-                _uiState.update { it.copy(course = character) }
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }*/
         }
     }
-
-
 }
