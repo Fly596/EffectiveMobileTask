@@ -23,3 +23,7 @@ Android-разработки. Приложение позволяет польз
 1. Клонируйте репозиторий:
    ```bash
    git clone https://github.com/your-username/your-repository.git
+
+<img width="395" height="879" alt="image" src="https://github.com/user-attachments/assets/b6af5956-e538-4f56-9d78-ee8673b408de" />
+<img width="395" height="879" alt="image" src="https://github.com/user-attachments/assets/02785889-8046-4070-87e1-ab12b9d65685" />
+
