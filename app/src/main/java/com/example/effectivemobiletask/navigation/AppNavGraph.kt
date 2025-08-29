@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -54,20 +55,22 @@ fun AppNavGraph(
         }
 
     Scaffold(
+        containerColor = MaterialTheme.colorScheme.background,
         bottomBar = {
             if (shouldShowBottomBar) {
                 BottomAppBar {
                     BottomNavigation.entries.forEachIndexed {
                         index,
-                        navigationItem ->
+                        navigationItem
+                        ->
                         val isSelected by
-                            remember(currentRoute) {
-                                derivedStateOf {
-                                    currentRouteTrimmed ==
-                                        navigationItem.route::class
-                                            .qualifiedName
-                                }
+                        remember(currentRoute) {
+                            derivedStateOf {
+                                currentRouteTrimmed ==
+                                    navigationItem.route::class
+                                        .qualifiedName
                             }
+                        }
 
                         NavigationBarItem(
                             selected = isSelected,
@@ -85,7 +88,7 @@ fun AppNavGraph(
                     }
                 }
             }
-        }
+        },
     ) { innerPadding ->
         // Основной контейнер навигации, который управляет экранами.
         NavHost(

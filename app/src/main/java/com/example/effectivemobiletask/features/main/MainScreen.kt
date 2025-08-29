@@ -146,6 +146,7 @@ fun SearchAndFilter(modifier: Modifier = Modifier) {
                 Icon(
                     painter = painterResource(R.drawable.outline_search_24),
                     contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary,
                 )
             },
             label = { Text("Search courses...") },
@@ -160,6 +161,7 @@ fun SearchAndFilter(modifier: Modifier = Modifier) {
                 painter = painterResource(R.drawable.outline_filter_alt_24),
                 contentDescription = "filter",
                 modifier = Modifier.size(32.dp),
+                tint = MaterialTheme.colorScheme.primary,
             )
         }
     }
